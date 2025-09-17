@@ -43,6 +43,22 @@ public class UserController {
         return "admin/user/create";
     }
 
+    // show edit user form
+    @GetMapping("/admin/user/edit/{id}")
+    public String getEditUserPage(Model model, @PathVariable long id) {
+        User user = this.userService.getUserById(id);
+        model.addAttribute("user", user);
+        return "admin/user/edit";
+    }
+
+    // show detail user
+    @GetMapping("/admin/user/{id}")
+    public String getDetailUserPage(Model model, @PathVariable long id) {
+        User user = this.userService.getUserById(id);
+        model.addAttribute("user", user);
+        return "admin/user/detail";
+    }
+
     // create user
     @PostMapping("/admin/user/create")
     public String createUser(Model model, @ModelAttribute("user") User user) {
@@ -51,10 +67,12 @@ public class UserController {
         return "redirect:/admin/user";
     }
 
-    // show edit user form
-    @GetMapping("/admin/user/edit/{id}")
-    public String getEditUserPage(Model model, @PathVariable long id) {
-        return "admin/user/edit";
+    // update user
+    @PostMapping("/admin/user/edit/{id}")
+    public String updateUser(Model model, @PathVariable long id, @ModelAttribute("user") User user) {
+        System.out.println("Updating user: " + user);
+        this.userService.handleUpdateUser(user);
+        return "redirect:/admin/user";
     }
 
 }

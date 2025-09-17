@@ -32,27 +32,27 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <form:label path="password" cssClass="form-label">Mật khẩu:</form:label>
+                                            <form:label path="password" cssClass="form-label">Password:</form:label>
                                             <form:password path="password" cssClass="form-control" />
                                         </div>
 
                                         <div class="mb-3">
-                                            <form:label path="phoneNumber" cssClass="form-label">Số điện thoại:
+                                            <form:label path="phoneNumber" cssClass="form-label">Phone Number:
                                             </form:label>
                                             <form:input path="phoneNumber" type="tel" cssClass="form-control" />
                                         </div>
 
                                         <div class="mb-3">
-                                            <form:label path="fullName" cssClass="form-label">Họ và tên:</form:label>
+                                            <form:label path="fullName" cssClass="form-label">Full Name:</form:label>
                                             <form:input path="fullName" type="text" cssClass="form-control" />
                                         </div>
 
                                         <div class="mb-3">
-                                            <form:label path="address" cssClass="form-label">Địa chỉ:</form:label>
+                                            <form:label path="address" cssClass="form-label">Address:</form:label>
                                             <form:input path="address" type="text" cssClass="form-control" />
                                         </div>
 
-                                        <button type="submit" class="btn btn-primary">Tạo mới</button>
+                                        <button type="submit" class="btn btn-primary">Create</button>
                                     </form:form>
                                 </div>
                             </div>

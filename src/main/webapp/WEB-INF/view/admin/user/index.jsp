@@ -14,6 +14,7 @@
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
             <!-- Font Awesome for icons -->
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+            <link href="${pageContext.request.contextPath}/css/main.css" rel="stylesheet">
         </head>
 
         <body>
@@ -60,15 +61,18 @@
                                                     <td class="px-3 py-3">${user.address}</td>
                                                     <td class="px-3 py-3 text-center">
                                                         <div class="btn-group" role="group">
-                                                            <button type="button" class="btn btn-success btn-sm me-1">
+                                                            <a href="/admin/user/${user.id}"
+                                                                class="btn btn-success btn-sm me-3 btn-custom">
                                                                 <i class="fas fa-eye"></i> View
-                                                            </button>
-                                                            <button type="button" class="btn btn-warning btn-sm me-1">
+                                                            </a>
+                                                            <a href="/admin/user/edit/${user.id}"
+                                                                class="btn btn-warning btn-sm me-3">
                                                                 <i class="fas fa-edit"></i> Update
-                                                            </button>
-                                                            <button type="button" class="btn btn-danger btn-sm">
+                                                            </a>
+                                                            <a href="/admin/user/delete/${user.id}"
+                                                                class="btn btn-danger btn-sm">
                                                                 <i class="fas fa-trash"></i> Delete
-                                                            </button>
+                                                            </a>
                                                         </div>
                                                     </td>
                                                 </tr>

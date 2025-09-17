@@ -1,0 +1,16 @@
+/* Target trực tiếp Bootstrap button classes */
+.btn.btn-success,
+.btn.btn-warning,
+.btn.btn-danger {
+    border-radius: 5px !important;
+    border: 1px solid #000 !important;
+    padding: 5px 10px !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn.btn-success:hover,
+.btn.btn-warning:hover,
+.btn.btn-danger:hover {
+    background-color: #000 !important;
+    color: #fff !important;
+}
