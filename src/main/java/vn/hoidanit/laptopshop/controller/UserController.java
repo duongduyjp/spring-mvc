@@ -2,7 +2,14 @@ package vn.hoidanit.laptopshop.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
 import vn.hoidanit.laptopshop.service.UserService;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import vn.hoidanit.laptopshop.domain.User;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -14,8 +21,40 @@ public class UserController {
 
     // localhost:8080/
     @RequestMapping("/")
-    public String getHomePage() {
-        String test = this.userService.getHelloWorld();
+    public String getHomePage(Model model) {
+        List<User> users = this.userService.getAllUsers();
+        model.addAttribute("users", users);
+        System.out.println(users);
         return "hello";
     }
+
+    // show user list
+    @GetMapping("/admin/user")
+    public String getUserPage(Model model) {
+        List<User> users = this.userService.getAllUsers();
+        model.addAttribute("users", users);
+        return "admin/user/index";
+    }
+
+    // show create user form
+    @GetMapping("/admin/user/create")
+    public String showCreateUserForm(Model model) {
+        model.addAttribute("user", new User());
+        return "admin/user/create";
+    }
+
+    // create user
+    @PostMapping("/admin/user/create")
+    public String createUser(Model model, @ModelAttribute("user") User user) {
+        System.out.println(user);
+        this.userService.handleCreateUser(user);
+        return "redirect:/admin/user";
+    }
+
+    // show edit user form
+    @GetMapping("/admin/user/edit/{id}")
+    public String getEditUserPage(Model model, @PathVariable long id) {
+        return "admin/user/edit";
+    }
+
 }

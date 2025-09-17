@@ -4,10 +4,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+import jakarta.annotation.Nonnull;
 
 @Configuration
 @EnableWebMvc
@@ -22,8 +24,18 @@ public class WebMvcConfig implements WebMvcConfigurer {
     return bean;
   }
 
+  // define path to jsp file
   @Override
   public void configureViewResolvers(ViewResolverRegistry registry) {
     registry.viewResolver(viewResolver());
   }
+
+  // define path to css file
+  @Override
+  public void addResourceHandlers(@Nonnull ResourceHandlerRegistry registry) {
+    registry.addResourceHandler("/css/**")
+        .addResourceLocations("/resources/css/")
+        .setCachePeriod(3600);
+  }
+
 }
