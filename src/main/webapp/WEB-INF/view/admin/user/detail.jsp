@@ -106,13 +106,17 @@
                                             </h6>
                                             <div class="btn-group" role="group">
                                                 <a href="/admin/user/edit/${user.id}"
-                                                    class="btn btn-warning btn-custom me-3">
+                                                    class="btn btn-warning btn-sm me-3">
                                                     <i class="fas fa-edit"></i> Edit User
                                                 </a>
-                                                <button type="button" class="btn btn-danger btn-custom me-3">
-                                                    <i class="fas fa-trash"></i> Delete User
-                                                </button>
-                                                <a href="/admin/user" class="btn btn-info btn-custom">
+                                                <form action="/admin/user/delete/${user.id}" method="POST"
+                                                    onsubmit="return confirm('You are sure to delete this user?');"
+                                                    style="display: inline-block; margin: 0;">
+                                                    <button type="submit" class="btn btn-danger btn-sm me-3">
+                                                        <i class="fas fa-trash"></i> Delete
+                                                    </button>
+                                                </form>
+                                                <a href="/admin/user" class="btn btn-info btn-sm">
                                                     <i class="fas fa-list"></i> All Users
                                                 </a>
                                             </div>

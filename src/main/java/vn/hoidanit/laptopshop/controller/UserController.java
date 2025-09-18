@@ -70,9 +70,20 @@ public class UserController {
     // update user
     @PostMapping("/admin/user/edit/{id}")
     public String updateUser(Model model, @PathVariable long id, @ModelAttribute("user") User user) {
-        System.out.println("Updating user: " + user);
+        user.setId(id);
         this.userService.handleUpdateUser(user);
         return "redirect:/admin/user";
+    }
+
+    // delete user
+    @PostMapping("/admin/user/delete/{id}")
+    public String deleteUser(@PathVariable long id, Model model) {
+        try {
+            this.userService.handleDeleteUser(id);
+            return "redirect:/admin/user?success=true&message=User deleted successfully";
+        } catch (Exception e) {
+            return "redirect:/admin/user?error=true&message=" + e.getMessage();
+        }
     }
 
 }

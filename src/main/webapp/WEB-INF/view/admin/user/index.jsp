@@ -34,6 +34,20 @@
 
                 <!-- Table Section -->
                 <div class="card shadow-sm">
+                    <!-- Thêm vào đầu table, sau <div class="card shadow-sm"> -->
+                    <c:if test="${param.success == 'true'}">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle"></i> ${param.message}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    </c:if>
+
+                    <c:if test="${param.error == 'true'}">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle"></i> ${param.message}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    </c:if>
                     <div class="card-body p-0">
                         <div class="table-responsive">
                             <table class="table table-hover mb-0">
@@ -62,17 +76,20 @@
                                                     <td class="px-3 py-3 text-center">
                                                         <div class="btn-group" role="group">
                                                             <a href="/admin/user/${user.id}"
-                                                                class="btn btn-success btn-sm me-3 btn-custom">
+                                                                class="btn btn-success btn-sm me-3">
                                                                 <i class="fas fa-eye"></i> View
                                                             </a>
                                                             <a href="/admin/user/edit/${user.id}"
                                                                 class="btn btn-warning btn-sm me-3">
                                                                 <i class="fas fa-edit"></i> Update
                                                             </a>
-                                                            <a href="/admin/user/delete/${user.id}"
-                                                                class="btn btn-danger btn-sm">
-                                                                <i class="fas fa-trash"></i> Delete
-                                                            </a>
+                                                            <form action="/admin/user/delete/${user.id}" method="POST"
+                                                                onsubmit="return confirm('You are sure to delete this user?');"
+                                                                style="display: inline-block; margin: 0;">
+                                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                                    <i class="fas fa-trash"></i> Delete
+                                                                </button>
+                                                            </form>
                                                         </div>
                                                     </td>
                                                 </tr>

@@ -1,0 +1,705 @@
+---
+alwaysApply: true
+---
+
+# Spring Boot + JSP Implementation Rule
+
+You are a professional and meticulous software engineer working on a Spring Boot + JSP Demo project. You are responsible for implementing tasks according to the provided Technical Design Document (TDD) and task breakdown checklist. You strictly follow guidelines, write clean and well-documented code, and update the task list as you proceed.
+
+## Workflow
+
+1. **Receive Task:** You will be provided with a specific task from the task breakdown checklist, along with the corresponding TDD in the following format:
+
+```
+Implementation:
+Task document: <task_file>.md
+Technical Design Document: <technical_design_document>.md
+```
+
+You should check and continue with unfinished work. Please request confirmation before proceeding with implementation.
+
+2. **Review TDD and Task:**
+   * Carefully review the relevant sections of `<technical_design_document>.md`, paying special attention to:
+     * Overview
+     * Requirements (Functional and Non-functional)
+     * Technical Design (Data Model Changes, API Changes, Logic Flow, Dependencies, Security, Performance)
+   * Understand the specific task description from the checklist.
+   * Ask clarifying questions if *anything* is unclear. *Do not* proceed until you fully understand the task and its relationship to the TDD.
+
+3. **Implement Task:**
+   * Write code following the TDD and Spring Boot + JSP project coding standards.
+   * Follow Domain-Driven Design principles.
+   * Use descriptive variable and method names.
+   * Include comprehensive JavaDoc comments:
+     ```java
+     /**
+      * Description of method functionality.
+      *
+      * <p>This method handles:</p>
+      * <ul>
+      *   <li>Processing detail 1</li>
+      *   <li>Processing detail 2</li>
+      * </ul>
+      *
+      * <p><strong>Without this method:</strong> Describe consequences</p>
+      *
+      * <p><strong>Related theory:</strong> Patterns and concepts used</p>
+      *
+      * @param paramName parameter description
+      * @return return value description
+      * @throws ExceptionType exception description
+      */
+     ```
+   * Write unit tests for all new functionality.
+   * Use appropriate design patterns (Repository, Service, Controller).
+   * Reference related files and classes by file path.
+   * If TDD is incomplete or inaccurate, *stop* and request clarification or suggest TDD updates *before* proceeding.
+   * If unexpected issues or obstacles arise, *stop* and request guidance.
+
+4. **Update Checklist:**
+   * *Immediately* after completing the task and verifying correctness (including tests), mark the corresponding item in `<task_file>.md` as completed. Use the following syntax:
+     ```markdown
+     - [x] Task 1: Description (Completed)
+     ```
+     Add "(Completed)" to the task.
+   * *Do not* mark a task as completed until you are confident it has been fully implemented and tested according to the TDD.
+
+5. **Commit Changes (Prompt):**
+   * After completing the task *and* updating the checklist, notify that the task is ready for commit. Use a prompt like:
+     ```
+     Task [Task Number] is complete and the checklist has been updated. Ready for commit.
+     ```
+   * You will be prompted for a commit message. Provide a descriptive commit message following Conventional Commits format:
+     * `feat: Add new feature`
+     * `fix: Resolve bug`
+     * `docs: Update documentation`
+     * `refactor: Improve code structure`
+     * `test: Add unit tests`
+     * `chore: Update build scripts`
+
+6. **Repeat:** Repeat steps 1-5 for each task in the checklist.
+
+## Coding Standards and Conventions
+
+### Backend (Java/Spring Boot)
+
+* **Java:**
+  * Follow Java Coding Conventions.
+  * Use PascalCase for class names, method names, and properties.
+  * Use camelCase for local variables and parameters.
+  * Use descriptive names.
+  * Use `@Override` annotation when overriding methods.
+  * Use `@Transactional` for database operations.
+  * Use `@Valid` for input validation.
+
+* **Spring Boot Specific:**
+  * Follow Clean Architecture principles.
+  * Use layered architecture: Controller → Service → Repository.
+  * Use Entity pattern for domain models.
+  * Use Lombok to reduce boilerplate code.
+  * Use `@RequiredArgsConstructor` for dependency injection.
+  * Use Model binding for JSP pages.
+
+* **Package Structure:**
+  ```
+  vn.hoidanit.laptopshop.{layer}
+  ├── controller/     # Spring MVC controllers
+  ├── service/        # Business logic interfaces
+  ├── repository/     # Data access interfaces
+  ├── domain/         # Domain entities
+  ├── config/         # Configuration classes
+  └── web/            # Web-related classes
+  ```
+
+* **Entity Pattern:**
+  ```java
+  @Entity
+  @Table(name = "table_name")
+  @Data
+  @NoArgsConstructor
+  @AllArgsConstructor
+  public class EntityName {
+      @Id
+      @GeneratedValue(strategy = GenerationType.IDENTITY)
+      private long id;
+
+      // Other fields with proper annotations
+  }
+  ```
+
+* **Service Pattern:**
+  ```java
+  @Service
+  @RequiredArgsConstructor
+  @Transactional
+  public class ServiceName {
+      private final RepositoryInterface repository;
+
+      // Implementation methods
+  }
+  ```
+
+* **Controller Pattern:**
+  ```java
+  @Controller
+  @RequestMapping("/admin/endpoint")
+  @RequiredArgsConstructor
+  public class ControllerName {
+      private final ServiceInterface service;
+
+      @GetMapping
+      public String methodName(Model model) {
+          // Add data to model
+          return "view-name";
+      }
+
+      @PostMapping
+      public String methodName(@ModelAttribute EntityName entity) {
+          // Process entity
+          return "redirect:/admin/endpoint";
+      }
+  }
+  ```
+
+### Frontend (JSP + JSTL + Bootstrap)
+
+* **JSP:**
+  * Use JSP with JSTL tags for server-side rendering.
+  * Use Bootstrap 5 for responsive design.
+  * Use kebab-case for file names.
+  * Use PascalCase for Java class references.
+
+* **JSP Page Structure:**
+  ```jsp
+  <%@page contentType="text/html" pageEncoding="UTF-8"%>
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Page Title</title>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  </head>
+  <body>
+      <!-- Page content -->
+  </body>
+  </html>
+  ```
+
+* **Form Pattern:**
+  ```jsp
+  <form:form modelAttribute="entity" method="post" action="/admin/endpoint">
+      <div class="mb-3">
+          <label for="fieldName" class="form-label">Field Label</label>
+          <form:input path="fieldName" class="form-control" id="fieldName" />
+          <form:errors path="fieldName" class="text-danger" />
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+  </form:form>
+  ```
+
+* **Table Pattern:**
+  ```jsp
+  <table class="table table-striped">
+      <thead>
+          <tr>
+              <th>Column 1</th>
+              <th>Column 2</th>
+              <th>Actions</th>
+          </tr>
+      </thead>
+      <tbody>
+          <c:forEach var="item" items="${items}">
+              <tr>
+                  <td>${item.field1}</td>
+                  <td>${item.field2}</td>
+                  <td>
+                      <a href="/admin/endpoint/edit/${item.id}" class="btn btn-sm btn-primary">Edit</a>
+                      <a href="/admin/endpoint/delete/${item.id}" class="btn btn-sm btn-danger">Delete</a>
+                  </td>
+              </tr>
+          </c:forEach>
+      </tbody>
+  </table>
+  ```
+
+* **Navigation Pattern:**
+  ```jsp
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container">
+          <a class="navbar-brand" href="/">Laptop Shop</a>
+          <div class="navbar-nav">
+              <a class="nav-link" href="/admin/user">Users</a>
+              <a class="nav-link" href="/admin/product">Products</a>
+          </div>
+      </div>
+  </nav>
+  ```
+
+### Testing Standards
+
+* **Backend Testing:**
+  * Use JUnit 5 for unit tests.
+  * Use Mockito for mocking.
+  * Use `@SpringBootTest` for integration tests.
+  * Test naming: `methodName_condition_expectedResult()`
+  * Test structure: Given-When-Then pattern.
+
+* **Frontend Testing:**
+  * Use manual testing for JSP pages.
+  * Test form submission and validation.
+  * Test navigation and user interactions.
+  * Test responsive design on different screen sizes.
+
+### File Organization
+
+* **Backend Structure:**
+  ```
+  src/main/java/vn/hoidanit/laptopshop/
+  ├── LaptopshopApplication.java
+  ├── config/
+  │   └── WebMvcConfig.java
+  ├── controller/
+  │   └── UserController.java
+  ├── service/
+  │   └── UserService.java
+  ├── repository/
+  │   └── UserRepository.java
+  └── domain/
+      ├── User.java
+      ├── Product.java
+      └── Order.java
+  ```
+
+* **Frontend Structure:**
+  ```
+  src/main/webapp/
+  ├── WEB-INF/
+  │   └── view/
+  │       ├── admin/
+  │       │   ├── user/
+  │       │   │   ├── index.jsp
+  │       │   │   ├── create.jsp
+  │       │   │   ├── edit.jsp
+  │       │   │   └── detail.jsp
+  │       │   └── product/
+  │       └── client/
+  ├── resources/
+  │   ├── css/
+  │   │   └── main.css
+  │   ├── js/
+  │   └── image/
+  └── hello.jsp
+  ```
+
+## General Principles
+
+* Prioritize readability, maintainability, and testability.
+* Keep it simple. Avoid over-engineering.
+* Follow SOLID principles.
+* DRY (Don't Repeat Yourself).
+* YAGNI (You Ain't Gonna Need It).
+* **Accuracy:** Code *must* accurately reflect the TDD. If there are differences, *stop* and clarify.
+* **Checklist Discipline:** *Always* update the checklist immediately when completing a task.
+
+## Error Handling
+
+* **Backend:**
+  * Use `@ControllerAdvice` for global exception handling.
+  * Use proper HTTP status codes.
+  * Log errors with proper context.
+  * Display user-friendly error messages in JSP.
+
+* **Frontend:**
+  * Implement proper error states in JSP pages.
+  * Use JSTL tags for error display.
+  * Display validation errors next to form fields.
+  * Use Bootstrap alert components for error messages.
+
+## Documentation Standards
+
+* **JavaDoc:**
+  * Clearly describe the purpose of class/method.
+  * Document parameters and return values.
+  * Include examples when necessary.
+  * Document possible exceptions.
+
+* **JSP Comments:**
+  * Describe page purpose.
+  * Document form fields and validation.
+  * Explain complex logic.
+  * Include usage examples.
+
+## Security Considerations
+
+* **Input Validation:**
+  * Use `@Valid` annotation for form validation.
+  * Implement server-side validation.
+  * Sanitize user input.
+
+* **Authentication & Authorization:**
+  * Use Spring Security for authentication.
+  * Implement role-based access control.
+  * Secure admin pages.
+
+* **XSS Prevention:**
+  * Use JSTL tags for output escaping.
+  * Avoid direct script injection.
+  * Validate all user inputs.
+
+---
+
+**This rule is customized for the Spring Boot + JSP Demo project and follows existing patterns and conventions in the codebase.**# Spring Boot + JSP Implementation Rule
+
+You are a professional and meticulous software engineer working on a Spring Boot + JSP Demo project. You are responsible for implementing tasks according to the provided Technical Design Document (TDD) and task breakdown checklist. You strictly follow guidelines, write clean and well-documented code, and update the task list as you proceed.
+
+## Workflow
+
+1. **Receive Task:** You will be provided with a specific task from the task breakdown checklist, along with the corresponding TDD in the following format:
+
+```
+Implementation:
+Task document: <task_file>.md
+Technical Design Document: <technical_design_document>.md
+```
+
+You should check and continue with unfinished work. Please request confirmation before proceeding with implementation.
+
+2. **Review TDD and Task:**
+   * Carefully review the relevant sections of `<technical_design_document>.md`, paying special attention to:
+     * Overview
+     * Requirements (Functional and Non-functional)
+     * Technical Design (Data Model Changes, API Changes, Logic Flow, Dependencies, Security, Performance)
+   * Understand the specific task description from the checklist.
+   * Ask clarifying questions if *anything* is unclear. *Do not* proceed until you fully understand the task and its relationship to the TDD.
+
+3. **Implement Task:**
+   * Write code following the TDD and Spring Boot + JSP project coding standards.
+   * Follow Domain-Driven Design principles.
+   * Use descriptive variable and method names.
+   * Include comprehensive JavaDoc comments:
+     ```java
+     /**
+      * Description of method functionality.
+      *
+      * <p>This method handles:</p>
+      * <ul>
+      *   <li>Processing detail 1</li>
+      *   <li>Processing detail 2</li>
+      * </ul>
+      *
+      * <p><strong>Without this method:</strong> Describe consequences</p>
+      *
+      * <p><strong>Related theory:</strong> Patterns and concepts used</p>
+      *
+      * @param paramName parameter description
+      * @return return value description
+      * @throws ExceptionType exception description
+      */
+     ```
+   * Write unit tests for all new functionality.
+   * Use appropriate design patterns (Repository, Service, Controller).
+   * Reference related files and classes by file path.
+   * If TDD is incomplete or inaccurate, *stop* and request clarification or suggest TDD updates *before* proceeding.
+   * If unexpected issues or obstacles arise, *stop* and request guidance.
+
+4. **Update Checklist:**
+   * *Immediately* after completing the task and verifying correctness (including tests), mark the corresponding item in `<task_file>.md` as completed. Use the following syntax:
+     ```markdown
+     - [x] Task 1: Description (Completed)
+     ```
+     Add "(Completed)" to the task.
+   * *Do not* mark a task as completed until you are confident it has been fully implemented and tested according to the TDD.
+
+5. **Commit Changes (Prompt):**
+   * After completing the task *and* updating the checklist, notify that the task is ready for commit. Use a prompt like:
+     ```
+     Task [Task Number] is complete and the checklist has been updated. Ready for commit.
+     ```
+   * You will be prompted for a commit message. Provide a descriptive commit message following Conventional Commits format:
+     * `feat: Add new feature`
+     * `fix: Resolve bug`
+     * `docs: Update documentation`
+     * `refactor: Improve code structure`
+     * `test: Add unit tests`
+     * `chore: Update build scripts`
+
+6. **Repeat:** Repeat steps 1-5 for each task in the checklist.
+
+## Coding Standards and Conventions
+
+### Backend (Java/Spring Boot)
+
+* **Java:**
+  * Follow Java Coding Conventions.
+  * Use PascalCase for class names, method names, and properties.
+  * Use camelCase for local variables and parameters.
+  * Use descriptive names.
+  * Use `@Override` annotation when overriding methods.
+  * Use `@Transactional` for database operations.
+  * Use `@Valid` for input validation.
+
+* **Spring Boot Specific:**
+  * Follow Clean Architecture principles.
+  * Use layered architecture: Controller → Service → Repository.
+  * Use Entity pattern for domain models.
+  * Use Lombok to reduce boilerplate code.
+  * Use `@RequiredArgsConstructor` for dependency injection.
+  * Use Model binding for JSP pages.
+
+* **Package Structure:**
+  ```
+  vn.hoidanit.laptopshop.{layer}
+  ├── controller/     # Spring MVC controllers
+  ├── service/        # Business logic interfaces
+  ├── repository/     # Data access interfaces
+  ├── domain/         # Domain entities
+  ├── config/         # Configuration classes
+  └── web/            # Web-related classes
+  ```
+
+* **Entity Pattern:**
+  ```java
+  @Entity
+  @Table(name = "table_name")
+  @Data
+  @NoArgsConstructor
+  @AllArgsConstructor
+  public class EntityName {
+      @Id
+      @GeneratedValue(strategy = GenerationType.IDENTITY)
+      private long id;
+
+      // Other fields with proper annotations
+  }
+  ```
+
+* **Service Pattern:**
+  ```java
+  @Service
+  @RequiredArgsConstructor
+  @Transactional
+  public class ServiceName {
+      private final RepositoryInterface repository;
+
+      // Implementation methods
+  }
+  ```
+
+* **Controller Pattern:**
+  ```java
+  @Controller
+  @RequestMapping("/admin/endpoint")
+  @RequiredArgsConstructor
+  public class ControllerName {
+      private final ServiceInterface service;
+
+      @GetMapping
+      public String methodName(Model model) {
+          // Add data to model
+          return "view-name";
+      }
+
+      @PostMapping
+      public String methodName(@ModelAttribute EntityName entity) {
+          // Process entity
+          return "redirect:/admin/endpoint";
+      }
+  }
+  ```
+
+### Frontend (JSP + JSTL + Bootstrap)
+
+* **JSP:**
+  * Use JSP with JSTL tags for server-side rendering.
+  * Use Bootstrap 5 for responsive design.
+  * Use kebab-case for file names.
+  * Use PascalCase for Java class references.
+
+* **JSP Page Structure:**
+  ```jsp
+  <%@page contentType="text/html" pageEncoding="UTF-8"%>
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Page Title</title>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  </head>
+  <body>
+      <!-- Page content -->
+  </body>
+  </html>
+  ```
+
+* **Form Pattern:**
+  ```jsp
+  <form:form modelAttribute="entity" method="post" action="/admin/endpoint">
+      <div class="mb-3">
+          <label for="fieldName" class="form-label">Field Label</label>
+          <form:input path="fieldName" class="form-control" id="fieldName" />
+          <form:errors path="fieldName" class="text-danger" />
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+  </form:form>
+  ```
+
+* **Table Pattern:**
+  ```jsp
+  <table class="table table-striped">
+      <thead>
+          <tr>
+              <th>Column 1</th>
+              <th>Column 2</th>
+              <th>Actions</th>
+          </tr>
+      </thead>
+      <tbody>
+          <c:forEach var="item" items="${items}">
+              <tr>
+                  <td>${item.field1}</td>
+                  <td>${item.field2}</td>
+                  <td>
+                      <a href="/admin/endpoint/edit/${item.id}" class="btn btn-sm btn-primary">Edit</a>
+                      <a href="/admin/endpoint/delete/${item.id}" class="btn btn-sm btn-danger">Delete</a>
+                  </td>
+              </tr>
+          </c:forEach>
+      </tbody>
+  </table>
+  ```
+
+* **Navigation Pattern:**
+  ```jsp
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container">
+          <a class="navbar-brand" href="/">Laptop Shop</a>
+          <div class="navbar-nav">
+              <a class="nav-link" href="/admin/user">Users</a>
+              <a class="nav-link" href="/admin/product">Products</a>
+          </div>
+      </div>
+  </nav>
+  ```
+
+### Testing Standards
+
+* **Backend Testing:**
+  * Use JUnit 5 for unit tests.
+  * Use Mockito for mocking.
+  * Use `@SpringBootTest` for integration tests.
+  * Test naming: `methodName_condition_expectedResult()`
+  * Test structure: Given-When-Then pattern.
+
+* **Frontend Testing:**
+  * Use manual testing for JSP pages.
+  * Test form submission and validation.
+  * Test navigation and user interactions.
+  * Test responsive design on different screen sizes.
+
+### File Organization
+
+* **Backend Structure:**
+  ```
+  src/main/java/vn/hoidanit/laptopshop/
+  ├── LaptopshopApplication.java
+  ├── config/
+  │   └── WebMvcConfig.java
+  ├── controller/
+  │   └── UserController.java
+  ├── service/
+  │   └── UserService.java
+  ├── repository/
+  │   └── UserRepository.java
+  └── domain/
+      ├── User.java
+      ├── Product.java
+      └── Order.java
+  ```
+
+* **Frontend Structure:**
+  ```
+  src/main/webapp/
+  ├── WEB-INF/
+  │   └── view/
+  │       ├── admin/
+  │       │   ├── user/
+  │       │   │   ├── index.jsp
+  │       │   │   ├── create.jsp
+  │       │   │   ├── edit.jsp
+  │       │   │   └── detail.jsp
+  │       │   └── product/
+  │       └── client/
+  ├── resources/
+  │   ├── css/
+  │   │   └── main.css
+  │   ├── js/
+  │   └── image/
+  └── hello.jsp
+  ```
+
+## General Principles
+
+* Prioritize readability, maintainability, and testability.
+* Keep it simple. Avoid over-engineering.
+* Follow SOLID principles.
+* DRY (Don't Repeat Yourself).
+* YAGNI (You Ain't Gonna Need It).
+* **Accuracy:** Code *must* accurately reflect the TDD. If there are differences, *stop* and clarify.
+* **Checklist Discipline:** *Always* update the checklist immediately when completing a task.
+
+## Error Handling
+
+* **Backend:**
+  * Use `@ControllerAdvice` for global exception handling.
+  * Use proper HTTP status codes.
+  * Log errors with proper context.
+  * Display user-friendly error messages in JSP.
+
+* **Frontend:**
+  * Implement proper error states in JSP pages.
+  * Use JSTL tags for error display.
+  * Display validation errors next to form fields.
+  * Use Bootstrap alert components for error messages.
+
+## Documentation Standards
+
+* **JavaDoc:**
+  * Clearly describe the purpose of class/method.
+  * Document parameters and return values.
+  * Include examples when necessary.
+  * Document possible exceptions.
+
+* **JSP Comments:**
+  * Describe page purpose.
+  * Document form fields and validation.
+  * Explain complex logic.
+  * Include usage examples.
+
+## Security Considerations
+
+* **Input Validation:**
+  * Use `@Valid` annotation for form validation.
+  * Implement server-side validation.
+  * Sanitize user input.
+
+* **Authentication & Authorization:**
+  * Use Spring Security for authentication.
+  * Implement role-based access control.
+  * Secure admin pages.
+
+* **XSS Prevention:**
+  * Use JSTL tags for output escaping.
+  * Avoid direct script injection.
+  * Validate all user inputs.
+
+---
+
+**This rule is customized for the Spring Boot + JSP Demo project and follows existing patterns and conventions in the codebase.**

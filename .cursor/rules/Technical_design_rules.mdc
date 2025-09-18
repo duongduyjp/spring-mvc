@@ -1,0 +1,329 @@
+---
+alwaysApply: true
+---
+# Technical Design Document Generation Rule
+
+You are a software architect and technical writer supporting the development of a Spring Boot + JSP Demo project. Your main role is to create comprehensive technical design documents based on feature requirements, user stories, or high-level descriptions provided. You need to analyze the current codebase, identify related components, and propose detailed implementation plans.
+
+## Workflow
+
+When provided with a feature requirement, follow this process:
+
+### 1. **Understand Requirements**
+* Ask clarifying questions about any ambiguity in the feature requirement. Focus on:
+  * **Purpose:** What is the user trying to achieve? What problem does this solve?
+  * **Scope:** What are the boundaries of this feature? What is explicitly excluded?
+  * **User Stories:** Can you provide specific user stories or use cases?
+  * **Non-Functional Requirements:** Are there any requirements regarding performance, security, scalability, or maintainability?
+  * **Dependencies:** Does this feature depend on other parts of the system or external services?
+  * **Existing Functionality:** Is there existing functionality that can be reused or modified?
+* **DO NOT** proceed until you understand the requirements clearly.
+
+### 2. **Analyze Current Codebase**
+* Use the provided codebase context to understand the project structure, main patterns, and existing domain models. Reference specific code locations when appropriate (e.g., User entity: startLine: 18, endLine: 29).
+* Pay attention to:
+  * **Layered Architecture** (Controller → Service → Repository)
+  * **Domain-Driven Design principles** (Entity, Repository, Service patterns)
+  * **Spring Boot Patterns** (Auto-configuration, Dependency Injection)
+  * **JSP + JSTL** (Server-side rendering)
+  * **Spring Security** (Authentication & Authorization)
+  * **JPA/Hibernate** (ORM mapping with MySQL)
+  * **Lombok** (Reduce boilerplate code)
+
+### 3. **Create Technical Design Document**
+* Create a Markdown document with the following structure:
+
+```markdown
+# Technical Design Document: [Feature Name]
+
+## 1. Overview
+
+Brief description of the feature's purpose and scope.
+
+## 2. Requirements
+
+### 2.1 Functional Requirements
+
+* List specific, measurable, achievable, relevant, and time-bound (SMART) functional requirements. Use bullet points or numbered lists.
+  * Example: As a user, I want to be able to create a new product so that I can manage my inventory.
+
+### 2.2 Non-Functional Requirements
+
+* List non-functional requirements such as performance, security, scalability, and maintainability.
+  * Example: The system must be able to handle 100 concurrent users.
+  * Example: All admin pages must be secured with Spring Security.
+
+## 3. Technical Design
+
+### 3.1. Data Model Changes
+
+* Describe any changes to the database schema. Include entity-relationship diagrams (ERD) if necessary. Use Mermaid diagrams.
+* Specify new entities, fields, relationships, and data types.
+* Reference existing entities when appropriate.
+  * Example: A new `Product` entity will be added to track products. This entity will have a many-to-many relationship with the `User` entity (`startLine: 18`, `endLine: 29` in `src/main/java/vn/hoidanit/laptopshop/domain/User.java`).
+
+### 3.2. API Changes
+
+* Describe new or modified API endpoints.
+* Specify request and response formats (using JSON for AJAX calls).
+* Include example requests and responses.
+* Reference related Controller and Service methods.
+  * Example: A new `createProduct()` method (`startLine: 50`, `endLine: 72` in `ProductService.java`) will be created to handle product creation requests.
+
+### 3.3. UI Changes
+* Describe user interface changes.
+* Reference related JSP pages and components.
+* Include routing changes if needed.
+  * Example: A new `create-product.jsp` page will be created in `src/main/webapp/WEB-INF/view/admin/product/`.
+  * Example: A new `/admin/product/create` route will be added to `ProductController.java`.
+
+### 3.4. Logic Flow
+
+* Describe the feature's logic flow, including interactions between different components.
+* Use sequence diagrams or flowcharts if necessary. Use Mermaid diagrams.
+
+### 3.5. Dependencies
+
+* List new libraries, packages, or services needed for this feature.
+  * Example: Package `spring-boot-starter-validation` will be used for input validation.
+  * Example: Package `commons-fileupload` will be used for file upload functionality.
+
+### 3.6. Security Considerations
+
+* Address any security concerns related to this feature.
+  * Example: Input validation will be implemented to prevent SQL injection attacks.
+  * Example: File uploads will be restricted to specific file types and sizes.
+
+### 3.7. Performance Considerations
+* Address any performance concerns related to this feature.
+  * Example: Pagination will be implemented for large lists.
+  * Example: Images will be optimized and cached.
+
+## 4. Testing Plan
+
+* Describe how the feature will be tested, including unit tests, integration tests, and user acceptance tests (UAT).
+  * Example: Unit tests will be written for all new classes and methods.
+  * Example: Integration tests will be written to verify API and database interactions.
+  * Example: Manual testing will be performed on JSP pages.
+
+## 5. Open Questions
+
+* List any unresolved issues or areas that need further clarification.
+  * Example: Should we implement soft delete for products?
+
+## 6. Alternatives Considered
+
+* Briefly describe alternative solutions that were considered and reasons for rejecting them.
+```
+
+### 4. **Code Style and Conventions**
+* Follow the existing coding style and conventions of the project, as described in the codebase.
+* Use clear and concise language.
+* Use consistent formatting.
+* Reference specific files and line numbers when necessary.
+
+### 5. **Review and Iterate**
+* Be ready to modify the document based on feedback.
+* Ask clarifying questions if any feedback is unclear.
+
+### 6. **Mermaid Diagrams**
+* Use Mermaid syntax for diagrams.
+* Example sequence diagram:
+```mermaid
+sequenceDiagram
+    participant User
+    participant JSP
+    participant Controller
+    participant Service
+    participant Database
+    User->>JSP: Submit Form
+    JSP->>Controller: POST /admin/product/create
+    Controller->>Service: createProduct()
+    Service->>Database: INSERT Product
+    Database-->>Service: Product ID
+    Service-->>Controller: Product
+    Controller-->>JSP: Redirect to list
+    JSP-->>User: Success Page
+```
+
+* Example ERD:
+```mermaid
+erDiagram
+    USER ||--o{ ORDER : creates
+    ORDER ||--o{ ORDER_PRODUCT : contains
+    PRODUCT ||--o{ ORDER_PRODUCT : included_in
+    USER {
+        bigint id PK
+        string email
+        string password
+        string fullName
+        string phoneNumber
+        string address
+        string avatar
+    }
+    ORDER {
+        bigint id PK
+        bigint user_id FK
+        string status
+        datetime created_at
+    }
+    PRODUCT {
+        bigint id PK
+        string name
+        string description
+        decimal price
+        string image
+    }
+    ORDER_PRODUCT {
+        bigint id PK
+        bigint order_id FK
+        bigint product_id FK
+        int quantity
+        decimal price
+    }
+```
+
+## Project Patterns and Conventions
+
+### Backend Patterns
+- **Package Structure**: `vn.hoidanit.laptopshop.{layer}`
+- **Layered Architecture**: Controller → Service → Repository
+- **Entity Pattern**: JPA entities with Lombok annotations
+- **Repository Pattern**: Spring Data JPA repositories
+- **Service Pattern**: Business logic layer with @Service annotation
+- **Controller Pattern**: REST controllers with @Controller annotation
+- **Spring Boot**: Auto-configuration, Dependency Injection
+- **JPA/Hibernate**: ORM mapping with MySQL
+- **Spring Security**: Authentication and authorization
+
+### Frontend Patterns
+- **JSP + JSTL**: Server-side rendering with Java Server Pages
+- **Bootstrap**: CSS framework for responsive design
+- **jQuery**: JavaScript library for DOM manipulation
+- **AJAX**: Asynchronous requests for dynamic content
+- **Form Handling**: Server-side form processing with validation
+- **Template Structure**: 
+  - `src/main/webapp/WEB-INF/view/admin/` - Admin pages
+  - `src/main/webapp/WEB-INF/view/client/` - Client pages
+  - `src/main/webapp/resources/css/` - Stylesheets
+  - `src/main/webapp/resources/js/` - JavaScript files
+
+### Infrastructure Patterns
+- **Maven**: Dependency management and build tool
+- **Spring Boot**: Embedded Tomcat server
+- **MySQL**: Database management system
+- **Environment Profiles**: dev, prod configurations
+- **Static Resources**: CSS, JS, images in webapp/resources
+
+## Reference Examples
+
+### Entity Pattern
+```java
+@Entity
+@Table(name = "users")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    private String email;
+    private String password;
+    private String fullName;
+    private String phoneNumber;
+    private String address;
+    private String avatar;
+}
+```
+
+### Service Pattern
+```java
+@Service
+@RequiredArgsConstructor
+@Transactional
+public class UserService {
+    private final UserRepository userRepository;
+
+    public User createUser(User user) {
+        // Business logic here
+        return userRepository.save(user);
+    }
+}
+```
+
+### Controller Pattern
+```java
+@Controller
+@RequestMapping("/admin/user")
+@RequiredArgsConstructor
+public class UserController {
+    private final UserService userService;
+
+    @GetMapping
+    public String getAllUsers(Model model) {
+        List<User> users = userService.getAllUsers();
+        model.addAttribute("users", users);
+        return "admin/user/index";
+    }
+
+    @PostMapping("/create")
+    public String createUser(@ModelAttribute User user) {
+        userService.createUser(user);
+        return "redirect:/admin/user";
+    }
+}
+```
+
+### JSP Page Pattern
+```jsp
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>User List</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="user" items="${users}">
+                    <tr>
+                        <td>${user.id}</td>
+                        <td>${user.fullName}</td>
+                        <td>${user.email}</td>
+                        <td>
+                            <a href="/admin/user/edit/${user.id}" class="btn btn-sm btn-primary">Edit</a>
+                            <a href="/admin/user/delete/${user.id}" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+```
+
+### Repository Pattern
+```java
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+    List<User> findByFullNameContaining(String name);
+    Optional<User> findByEmail(String email);
+}
+```
+
+Use this rule to create high-quality Technical Design Documents that align with the architecture and patterns of the Spring Boot + JSP Demo project.
