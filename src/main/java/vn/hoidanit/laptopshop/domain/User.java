@@ -10,14 +10,11 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import jakarta.persistence.OneToMany;
 import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.CascadeType;
 import java.util.ArrayList;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 @Table(name = "users")
@@ -37,9 +34,10 @@ public class User {
     private String address;
     private String avatar;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    // Một user có một role
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Order> orders = new ArrayList<>();
