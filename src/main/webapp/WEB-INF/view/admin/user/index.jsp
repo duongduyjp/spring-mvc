@@ -24,7 +24,7 @@
             <jsp:include page="../layout/sidebar.jsp" />
             <div id="layoutSidenav_content">
                 <main>
-                    <div class="container mt-4">
+                    <div class="container-fluid mt-4">
                         <!-- Header Section -->
                         <div class="row mb-1">
                             <div class="col-md-6">
