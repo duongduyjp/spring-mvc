@@ -5,18 +5,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.CascadeType;
-import java.util.List;
-import java.util.ArrayList;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "products")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 
@@ -35,6 +32,9 @@ public class Product {
     private String factory;
     private String target;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<OrderProduct> orderProducts = new ArrayList<>();
+    @Override
+    public String toString() {
+        return String.format("Product{id=%d, name='%s', price=%,.0f VND, quantity=%d, sold=%d}",
+                id, name, price, quantity, sold);
+    }
 }

@@ -5,7 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import jakarta.persistence.OneToMany;
@@ -15,7 +16,8 @@ import java.util.HashSet;
 
 @Entity
 @Table(name = "roles")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 
@@ -26,7 +28,11 @@ public class Role {
 
     private String name;
 
-    // Một role có nhiều user
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     private Set<User> users = new HashSet<>();
+
+    @Override
+    public String toString() {
+        return String.format("Role{id=%d, name='%s'}", id, name);
+    }
 }

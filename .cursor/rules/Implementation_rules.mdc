@@ -612,11 +612,11 @@ You should check and continue with unfinished work. Please request confirmation 
   ├── LaptopshopApplication.java
   ├── config/
   │   └── WebMvcConfig.java
-  ├── controller/
+          ├── controller/
   │   └── UserController.java
-  ├── service/
+          ├── service/
   │   └── UserService.java
-  ├── repository/
+          ├── repository/
   │   └── UserRepository.java
   └── domain/
       ├── User.java

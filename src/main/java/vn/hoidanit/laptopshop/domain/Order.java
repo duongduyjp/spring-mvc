@@ -7,7 +7,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import jakarta.persistence.FetchType;
@@ -15,10 +14,13 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.CascadeType;
 import java.util.List;
 import java.util.ArrayList;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "orders")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 
@@ -34,6 +36,11 @@ public class Order {
     private User user;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<OrderProduct> orderProducts = new ArrayList<>();
+    private List<OrderDetail> orderDetails = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return String.format("Order{id=%d, totalPrice=%,.0f VND}", id, totalPrice);
+    }
 
 }
