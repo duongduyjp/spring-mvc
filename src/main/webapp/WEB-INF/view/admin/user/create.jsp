@@ -20,6 +20,7 @@
                 <link href="${pageContext.request.contextPath}/css/main.css" rel="stylesheet">
                 <link href="/css/styles.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
             </head>
 
             <body>
@@ -50,36 +51,78 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <form:form action="/admin/user/create" method="POST" modelAttribute="user">
-                                                <div class="mb-3">
-                                                    <form:label path="email" cssClass="form-label">Email:</form:label>
-                                                    <form:input path="email" type="email" cssClass="form-control" />
+                                                <!-- Row 1: Email & Password -->
+                                                <div class="row mb-3">
+                                                    <div class=" col-12 col-md-6">
+                                                        <form:label path="email" cssClass="form-label fw-medium">Email:
+                                                        </form:label>
+                                                        <form:input path="email" type="email"
+                                                            cssClass="form-control form-control-lg"
+                                                            placeholder="Enter email address" />
+                                                    </div>
+                                                    <div class=" col-12 col-md-6">
+                                                        <form:label path="password" cssClass="form-label fw-medium">
+                                                            Password:</form:label>
+                                                        <form:password path="password"
+                                                            cssClass="form-control form-control-lg"
+                                                            placeholder="Enter password" />
+                                                    </div>
                                                 </div>
 
-                                                <div class="mb-3">
-                                                    <form:label path="password" cssClass="form-label">Password:
-                                                    </form:label>
-                                                    <form:password path="password" cssClass="form-control" />
+                                                <!-- Row 2: Phone & Full Name -->
+                                                <div class="row mb-3">
+                                                    <div class=" col-12 col-md-6">
+                                                        <form:label path="phoneNumber" cssClass="form-label fw-medium">
+                                                            Phone number:</form:label>
+                                                        <form:input path="phoneNumber" type="tel"
+                                                            cssClass="form-control form-control-lg" />
+                                                    </div>
+                                                    <div class=" col-12 col-md-6">
+                                                        <form:label path="fullName" cssClass="form-label fw-medium">Full
+                                                            Name:</form:label>
+                                                        <form:input path="fullName" type="text"
+                                                            cssClass="form-control form-control-lg" />
+                                                    </div>
+                                                </div>
+                                                <!-- Row 3: Address (Full Width) -->
+                                                <div class="row mb-3">
+                                                    <div class="col-md-12">
+                                                        <form:label path="address" cssClass="form-label">Address:
+                                                        </form:label>
+                                                        <form:input path="address" type="text"
+                                                            cssClass="form-control form-control-lg" />
+                                                    </div>
                                                 </div>
 
-                                                <div class="mb-3">
-                                                    <form:label path="phoneNumber" cssClass="form-label">Phone Number:
-                                                    </form:label>
-                                                    <form:input path="phoneNumber" type="tel" cssClass="form-control" />
+                                                <!-- Row 4: Role & Avatar -->
+                                                <div class="row mb-4">
+                                                    <div class=" col-12 col-md-6">
+                                                        <label class="form-label fw-medium">Role:</label>
+                                                        <select class="form-select form-select-lg" name="role">
+                                                            <option value="ADMIN" selected>ADMIN</option>
+                                                            <option value="USER">USER</option>
+                                                            <option value="MANAGER">MANAGER</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="form-label fw-medium">Avatar:</label>
+                                                        <div class="input-group">
+                                                            <input type="file" class="form-control form-control-lg"
+                                                                name="avatar" id="avatarFile"
+                                                                accept="image/png, image/jpeg, image/jpg">
+                                                        </div>
+                                                    </div>
                                                 </div>
-
-                                                <div class="mb-3">
-                                                    <form:label path="fullName" cssClass="form-label">Full Name:
-                                                    </form:label>
-                                                    <form:input path="fullName" type="text" cssClass="form-control" />
+                                                <!-- Row 5: Avatar Preview (TRONG row) -->
+                                                <div class="row mb-3">
+                                                    <div class="col-12 text-center">
+                                                        <img style="max-height: 250px; display: none; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"
+                                                            alt="avatar preview" id="avatarPreview" />
+                                                    </div>
                                                 </div>
-
-                                                <div class="mb-3">
-                                                    <form:label path="address" cssClass="form-label">Address:
-                                                    </form:label>
-                                                    <form:input path="address" type="text" cssClass="form-control" />
+                                                <div>
+                                                    <button type="submit" class="btn btn-primary">Create</button>
                                                 </div>
-
-                                                <button type="submit" class="btn btn-primary">Create</button>
                                             </form:form>
                                         </div>
                                     </div>
@@ -89,6 +132,21 @@
                     </main>
                     <jsp:include page="../layout/footer.jsp" />
                 </div>
+                <script>
+                    $(function () {
+                        $('#avatarFile').on('change', function (e) {
+                            const file = this.files && this.files[0];
+                            const $preview = $('#avatarPreview');
+                            if (file && file.type.match('image.*')) {
+                                const imgURL = URL.createObjectURL(file);
+                                $preview.attr('src', imgURL).show();
+                            } else {
+                                $preview.hide().removeAttr('src');
+                            }
+                        });
+                    });
+                </script>
+
             </body>
 
             </html>
