@@ -98,11 +98,12 @@
                                                 <div class="row mb-4">
                                                     <div class=" col-12 col-md-6">
                                                         <label class="form-label fw-medium">Role:</label>
-                                                        <select class="form-select form-select-lg" name="role">
-                                                            <option value="ADMIN" selected>ADMIN</option>
-                                                            <option value="USER">USER</option>
-                                                            <option value="MANAGER">MANAGER</option>
-                                                        </select>
+                                                        <form:select path="role.name" class="form-select form-select-lg"
+                                                            name="role">
+                                                            <form:option value="ADMIN">ADMIN</form:option>
+                                                            <form:option value="USER">USER</form:option>
+                                                            <form:option value="MANAGER">MANAGER</form:option>
+                                                        </form:select>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label class="form-label fw-medium">Avatar:</label>

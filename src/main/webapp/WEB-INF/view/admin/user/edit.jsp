@@ -46,43 +46,79 @@
                                 <div class="col-md-6">
                                     <div class="card">
                                         <div class="card-body">
-                                            <h2 class="card-title text-left mb-4">Edit user</h2>
-
-                                            <form:form action="/admin/user/edit/${user.id}" method="POST"
-                                                modelAttribute="user">
-                                                <form:hidden path="id" />
-
-                                                <div class="mb-3">
-                                                    <form:label path="email" cssClass="form-label">Email:</form:label>
-                                                    <form:input path="email" type="email" cssClass="form-control"
-                                                        readonly="true" />
+                                            <form:form action="/admin/user/edit" method="POST" modelAttribute="user">
+                                                <!-- Row 1: Email & Password -->
+                                                <div class="row mb-3">
+                                                    <div class=" col-12 col-md-6">
+                                                        <form:label path="email" cssClass="form-label fw-medium">Email:
+                                                        </form:label>
+                                                        <form:input path="email" type="email"
+                                                            cssClass="form-control form-control-lg"
+                                                            placeholder="Enter email address" />
+                                                    </div>
+                                                    <div class=" col-12 col-md-6">
+                                                        <form:label path="password" cssClass="form-label fw-medium">
+                                                            Password:</form:label>
+                                                        <form:password path="password"
+                                                            cssClass="form-control form-control-lg"
+                                                            placeholder="Enter password" />
+                                                    </div>
                                                 </div>
 
-                                                <div class="mb-3">
-                                                    <form:label path="password" cssClass="form-label">Password:
-                                                    </form:label>
-                                                    <form:password path="password" cssClass="form-control" />
+                                                <!-- Row 2: Phone & Full Name -->
+                                                <div class="row mb-3">
+                                                    <div class=" col-12 col-md-6">
+                                                        <form:label path="phoneNumber" cssClass="form-label fw-medium">
+                                                            Phone number:</form:label>
+                                                        <form:input path="phoneNumber" type="tel"
+                                                            cssClass="form-control form-control-lg" />
+                                                    </div>
+                                                    <div class=" col-12 col-md-6">
+                                                        <form:label path="fullName" cssClass="form-label fw-medium">Full
+                                                            Name:</form:label>
+                                                        <form:input path="fullName" type="text"
+                                                            cssClass="form-control form-control-lg" />
+                                                    </div>
+                                                </div>
+                                                <!-- Row 3: Address (Full Width) -->
+                                                <div class="row mb-3">
+                                                    <div class="col-md-12">
+                                                        <form:label path="address" cssClass="form-label">Address:
+                                                        </form:label>
+                                                        <form:input path="address" type="text"
+                                                            cssClass="form-control form-control-lg" />
+                                                    </div>
                                                 </div>
 
-                                                <div class="mb-3">
-                                                    <form:label path="phoneNumber" cssClass="form-label">Phone Number:
-                                                    </form:label>
-                                                    <form:input path="phoneNumber" type="tel" cssClass="form-control" />
+                                                <!-- Row 4: Role & Avatar -->
+                                                <div class="row mb-4">
+                                                    <div class=" col-12 col-md-6">
+                                                        <label class="form-label fw-medium">Role:</label>
+                                                        <select class="form-select form-select-lg" name="role">
+                                                            <option value="ADMIN" selected>ADMIN</option>
+                                                            <option value="USER">USER</option>
+                                                            <option value="MANAGER">MANAGER</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="form-label fw-medium">Avatar:</label>
+                                                        <div class="input-group">
+                                                            <input type="file" class="form-control form-control-lg"
+                                                                name="avatar" id="avatarFile"
+                                                                accept="image/png, image/jpeg, image/jpg">
+                                                        </div>
+                                                    </div>
                                                 </div>
-
-                                                <div class="mb-3">
-                                                    <form:label path="fullName" cssClass="form-label">Full Name:
-                                                    </form:label>
-                                                    <form:input path="fullName" type="text" cssClass="form-control" />
+                                                <!-- Row 5: Avatar Preview (TRONG row) -->
+                                                <div class="row mb-3">
+                                                    <div class="col-12 text-center">
+                                                        <img style="max-height: 250px; display: none; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"
+                                                            alt="avatar preview" id="avatarPreview" />
+                                                    </div>
                                                 </div>
-
-                                                <div class="mb-3">
-                                                    <form:label path="address" cssClass="form-label">Address:
-                                                    </form:label>
-                                                    <form:input path="address" type="text" cssClass="form-control" />
+                                                <div>
+                                                    <button type="submit" class="btn btn-primary">Update</button>
                                                 </div>
-
-                                                <button type="submit" class="btn btn-primary">Update</button>
                                             </form:form>
                                         </div>
                                     </div>
