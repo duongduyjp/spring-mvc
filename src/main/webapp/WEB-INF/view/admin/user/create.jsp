@@ -50,7 +50,8 @@
                                     </div>
                                     <div class="card">
                                         <div class="card-body">
-                                            <form:form action="/admin/user/create" method="POST" modelAttribute="user">
+                                            <form:form action="/admin/user/create" method="POST" modelAttribute="user"
+                                                enctype="multipart/form-data">
                                                 <!-- Row 1: Email & Password -->
                                                 <div class="row mb-3">
                                                     <div class=" col-12 col-md-6">
@@ -108,8 +109,8 @@
                                                         <label class="form-label fw-medium">Avatar:</label>
                                                         <div class="input-group">
                                                             <input type="file" class="form-control form-control-lg"
-                                                                name="avatar" id="avatarFile"
-                                                                accept="image/png, image/jpeg, image/jpg">
+                                                                name="avatarFile" id="avatarFile"
+                                                                accept="image/png, image/jpeg, image/jpg" />
                                                         </div>
                                                     </div>
                                                 </div>

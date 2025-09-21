@@ -3,25 +3,40 @@ package vn.hoidanit.laptopshop.controller.admin;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+
 import vn.hoidanit.laptopshop.service.UserService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import vn.hoidanit.laptopshop.domain.User;
 import org.springframework.web.bind.annotation.ModelAttribute;
+
 import java.util.List;
 import vn.hoidanit.laptopshop.domain.Role;
 import vn.hoidanit.laptopshop.service.RoleService;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import vn.hoidanit.laptopshop.service.UploadService;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 
 @Controller
 public class UserController {
     private UserService userService;
     private RoleService roleService;
+    private UploadService uploadService;
 
-    public UserController(UserService userService, RoleService roleService) {
+    public UserController(UserService userService, RoleService roleService, UploadService uploadService) {
         this.userService = userService;
         this.roleService = roleService;
+        this.uploadService = uploadService;
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        // Ignore avatar field để tránh conflict với file upload
+        binder.setDisallowedFields("avatar");
     }
 
     // localhost:8080/
@@ -46,6 +61,20 @@ public class UserController {
     public String showCreateUserForm(Model model) {
         model.addAttribute("user", new User());
         List<Role> roles = this.roleService.getAllRoles();
+
+        // Nếu không có roles, tạo default roles
+        if (roles.isEmpty()) {
+            Role adminRole = new Role();
+            adminRole.setName("ADMIN");
+            this.roleService.createRole(adminRole);
+
+            Role userRole = new Role();
+            userRole.setName("USER");
+            this.roleService.createRole(userRole);
+
+            roles = this.roleService.getAllRoles();
+        }
+
         model.addAttribute("roles", roles);
         return "admin/user/create";
     }
@@ -68,14 +97,36 @@ public class UserController {
 
     // create user
     @PostMapping("/admin/user/create")
-    public String createUser(Model model, @ModelAttribute("user") User user,
-            @RequestParam("roleName") String roleName) {
-        // Tìm Role object từ tên role
-        Role role = this.roleService.getRoleByName(roleName);
+    public String createUser(Model model,
+            @ModelAttribute("user") User user,
+            BindingResult bindingResult,
+            @RequestParam("roleName") String roleName,
+            @RequestParam(value = "avatarFile", required = false) MultipartFile avatarFile) {
 
+        // 1. Kiểm tra validation errors
+        if (bindingResult.hasErrors()) {
+            List<Role> roles = this.roleService.getAllRoles();
+            model.addAttribute("roles", roles);
+            return "admin/user/create";
+        }
+
+        // 2. Xử lý upload avatar bằng UploadService
+        try {
+            String avatarFileName = this.uploadService.handleSaveAvatarFile(avatarFile);
+            if (avatarFileName != null) {
+                user.setAvatar(avatarFileName);
+            }
+        } catch (RuntimeException e) {
+            model.addAttribute("error", "Lỗi upload avatar: " + e.getMessage());
+            List<Role> roles = this.roleService.getAllRoles();
+            model.addAttribute("roles", roles);
+            return "admin/user/create";
+        }
+
+        // 3. Tìm và set Role
+        Role role = this.roleService.getRoleByName(roleName);
         if (role != null) {
             user.setRole(role);
-            this.userService.handleCreateUser(user);
         } else {
             model.addAttribute("error", "Role không tồn tại: " + roleName);
             List<Role> roles = this.roleService.getAllRoles();
@@ -83,7 +134,16 @@ public class UserController {
             return "admin/user/create";
         }
 
-        return "redirect:/admin/user";
+        // 4. Lưu user
+        try {
+            this.userService.handleCreateUser(user);
+            return "redirect:/admin/user?success=true&message=User created successfully";
+        } catch (Exception e) {
+            model.addAttribute("error", "Lỗi tạo user: " + e.getMessage());
+            List<Role> roles = this.roleService.getAllRoles();
+            model.addAttribute("roles", roles);
+            return "admin/user/create";
+        }
     }
 
     // update user

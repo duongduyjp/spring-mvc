@@ -46,7 +46,9 @@ public class User {
 
     @Override
     public String toString() {
-        return String.format("User{id=%d, email='%s', fullName='%s', phoneNumber='%s', address='%s', avatar='%s'}", id,
-                email, fullName, phoneNumber, address, avatar);
+        return String.format(
+                "User{id=%d, email='%s', fullName='%s', phoneNumber='%s', address='%s', avatar='%s', role=%s}",
+                id, email, fullName, phoneNumber, address, avatar,
+                (role != null ? role.getName() : "null"));
     }
 }
