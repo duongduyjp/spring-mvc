@@ -10,13 +10,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import vn.hoidanit.laptopshop.domain.User;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import java.util.List;
+import vn.hoidanit.laptopshop.domain.Role;
+import vn.hoidanit.laptopshop.service.RoleService;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class UserController {
     private UserService userService;
+    private RoleService roleService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     // localhost:8080/
@@ -40,6 +45,8 @@ public class UserController {
     @GetMapping("/admin/user/create")
     public String showCreateUserForm(Model model) {
         model.addAttribute("user", new User());
+        List<Role> roles = this.roleService.getAllRoles();
+        model.addAttribute("roles", roles);
         return "admin/user/create";
     }
 
@@ -61,9 +68,21 @@ public class UserController {
 
     // create user
     @PostMapping("/admin/user/create")
-    public String createUser(Model model, @ModelAttribute("user") User user) {
-        System.out.println(user);
-        // this.userService.handleCreateUser(user);
+    public String createUser(Model model, @ModelAttribute("user") User user,
+            @RequestParam("roleName") String roleName) {
+        // Tìm Role object từ tên role
+        Role role = this.roleService.getRoleByName(roleName);
+
+        if (role != null) {
+            user.setRole(role);
+            this.userService.handleCreateUser(user);
+        } else {
+            model.addAttribute("error", "Role không tồn tại: " + roleName);
+            List<Role> roles = this.roleService.getAllRoles();
+            model.addAttribute("roles", roles);
+            return "admin/user/create";
+        }
+
         return "redirect:/admin/user";
     }
 

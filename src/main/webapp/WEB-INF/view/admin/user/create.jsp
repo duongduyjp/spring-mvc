@@ -96,14 +96,13 @@
 
                                                 <!-- Row 4: Role & Avatar -->
                                                 <div class="row mb-4">
-                                                    <div class=" col-12 col-md-6">
+                                                    <div class="col-12 col-md-6">
                                                         <label class="form-label fw-medium">Role:</label>
-                                                        <form:select path="role.name" class="form-select form-select-lg"
-                                                            name="role">
-                                                            <form:option value="ADMIN">ADMIN</form:option>
-                                                            <form:option value="USER">USER</form:option>
-                                                            <form:option value="MANAGER">MANAGER</form:option>
-                                                        </form:select>
+                                                        <select class="form-select form-select-lg" name="roleName">
+                                                            <c:forEach var="role" items="${roles}">
+                                                                <option value="${role.name}">${role.name}</option>
+                                                            </c:forEach>
+                                                        </select>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label class="form-label fw-medium">Avatar:</label>
