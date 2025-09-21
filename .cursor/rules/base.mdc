@@ -71,11 +71,11 @@ For each step:
 - Provide a list of functional and non-functional requirements that must be met for the feature to be considered complete.
 ### Rule: Handling prompts starting with "hướng dẫn"
 
-- When my prompt starts with the word "hướng dẫn", the AI must present step-by-step instructions for the requested feature or operation, including illustrative code samples for each step.
-- Do not directly modify my code or provide a specific patch; only guide step-by-step and provide example code so I can implement it myself.
-- Ensure the instructions are clear, sequential, easy to understand, and strictly follow the current project architecture.
-- If there are any notes on security, testing, rollback, or best practices, they must be clearly stated at the end of the instructions.
-- Always respond in Vietnamese, using Markdown formatting.
+- When my prompt begins with the word "tutorial", the AI ​​must present step-by-step instructions for the requested feature or operation, including illustrative sample code and detailed step-by-step implementation instructions
+- Do not directly modify my code or provide specific patches; only provide step-by-step instructions and example code so I can implement it myself.
+- Ensure instructions are clear, sequential, easy to understand, and strictly adhere to the current project architecture.
+- If there are any notes about security, testing, recovery, or best practices, they must be clearly stated at the end of the instructions.
+- Always respond in Vietnamese, using Markdown format.
 
 Example:
 > **Bước 1:** Mở file `UserController.java`, thêm method xử lý GET.
