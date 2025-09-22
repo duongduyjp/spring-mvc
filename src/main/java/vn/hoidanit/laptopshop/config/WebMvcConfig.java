@@ -47,5 +47,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
         .addResourceLocations("/resources/images/")
         .setCachePeriod(3600);
 
+    // Client mapping
+    registry.addResourceHandler("/client/**")
+        .addResourceLocations("/resources/client/")
+        .setCachePeriod(3600);
+
   }
 }
