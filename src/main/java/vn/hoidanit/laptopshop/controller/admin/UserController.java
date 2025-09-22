@@ -15,13 +15,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import java.util.List;
 import vn.hoidanit.laptopshop.domain.Role;
 import vn.hoidanit.laptopshop.service.RoleService;
+import vn.hoidanit.laptopshop.service.UploadService;
+
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import vn.hoidanit.laptopshop.service.UploadService;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
 @Controller
+@RequestMapping("/admin")
 public class UserController {
     private UserService userService;
     private RoleService roleService;
@@ -49,7 +51,7 @@ public class UserController {
     }
 
     // show user list
-    @GetMapping("/admin/user")
+    @GetMapping("/user")
     public String getUserPage(Model model) {
         List<User> users = this.userService.getAllUsers();
         model.addAttribute("users", users);
@@ -57,7 +59,7 @@ public class UserController {
     }
 
     // show create user form
-    @GetMapping("/admin/user/create")
+    @GetMapping("/user/create")
     public String showCreateUserForm(Model model) {
         model.addAttribute("user", new User());
         List<Role> roles = this.roleService.getAllRoles();
@@ -80,15 +82,21 @@ public class UserController {
     }
 
     // show edit user form
-    @GetMapping("/admin/user/edit/{id}")
+    @GetMapping("/user/edit/{id}")
     public String getEditUserPage(Model model, @PathVariable long id) {
         User user = this.userService.getUserById(id);
+        if (user == null) {
+            return "redirect:/admin/user?error=true&message=User not found";
+        }
+
+        List<Role> roles = this.roleService.getAllRoles();
         model.addAttribute("user", user);
+        model.addAttribute("roles", roles);
         return "admin/user/edit";
     }
 
     // show detail user
-    @GetMapping("/admin/user/{id}")
+    @GetMapping("/user/{id}")
     public String getDetailUserPage(Model model, @PathVariable long id) {
         User user = this.userService.getUserById(id);
         model.addAttribute("user", user);
@@ -96,7 +104,7 @@ public class UserController {
     }
 
     // create user
-    @PostMapping("/admin/user/create")
+    @PostMapping("/user/create")
     public String createUser(Model model,
             @ModelAttribute("user") User user,
             BindingResult bindingResult,
@@ -109,53 +117,56 @@ public class UserController {
             model.addAttribute("roles", roles);
             return "admin/user/create";
         }
-
-        // 2. Xử lý upload avatar bằng UploadService
         try {
-            String avatarFileName = this.uploadService.handleSaveAvatarFile(avatarFile);
-            if (avatarFileName != null) {
-                user.setAvatar(avatarFileName);
-            }
-        } catch (RuntimeException e) {
-            model.addAttribute("error", "Lỗi upload avatar: " + e.getMessage());
-            List<Role> roles = this.roleService.getAllRoles();
-            model.addAttribute("roles", roles);
-            return "admin/user/create";
-        }
-
-        // 3. Tìm và set Role
-        Role role = this.roleService.getRoleByName(roleName);
-        if (role != null) {
-            user.setRole(role);
-        } else {
-            model.addAttribute("error", "Role không tồn tại: " + roleName);
-            List<Role> roles = this.roleService.getAllRoles();
-            model.addAttribute("roles", roles);
-            return "admin/user/create";
-        }
-
-        // 4. Lưu user
-        try {
-            this.userService.handleCreateUser(user);
+            this.userService.handleCreateUser(user, roleName, avatarFile);
             return "redirect:/admin/user?success=true&message=User created successfully";
         } catch (Exception e) {
-            model.addAttribute("error", "Lỗi tạo user: " + e.getMessage());
+            model.addAttribute("error", e.getMessage());
             List<Role> roles = this.roleService.getAllRoles();
             model.addAttribute("roles", roles);
             return "admin/user/create";
         }
+
     }
 
     // update user
-    @PostMapping("/admin/user/edit/{id}")
-    public String updateUser(Model model, @PathVariable long id, @ModelAttribute("user") User user) {
-        user.setId(id);
-        this.userService.handleUpdateUser(user);
-        return "redirect:/admin/user";
+    @PostMapping("/user/edit/{id}")
+    public String updateUser(Model model,
+            @PathVariable long id,
+            @ModelAttribute("user") User user,
+            BindingResult bindingResult,
+            @RequestParam(value = "roleName", required = false) String roleName,
+            @RequestParam(value = "avatarFile", required = false) MultipartFile avatarFile) {
+
+        // Kiểm tra user có tồn tại không
+        User existingUser = this.userService.getUserById(id);
+        if (existingUser == null) {
+            return "redirect:/admin/user?error=true&message=User not found";
+        }
+
+        // Kiểm tra validation errors
+        if (bindingResult.hasErrors()) {
+            List<Role> roles = this.roleService.getAllRoles();
+            model.addAttribute("user", existingUser);
+            model.addAttribute("roles", roles);
+            return "admin/user/edit";
+        }
+
+        try {
+            user.setId(id);
+            this.userService.handleUpdateUser(user, avatarFile, roleName);
+            return "redirect:/admin/user?success=true&message=User updated successfully";
+        } catch (Exception e) {
+            List<Role> roles = this.roleService.getAllRoles();
+            model.addAttribute("user", existingUser);
+            model.addAttribute("roles", roles);
+            model.addAttribute("error", e.getMessage());
+            return "admin/user/edit";
+        }
     }
 
     // delete user
-    @PostMapping("/admin/user/delete/{id}")
+    @PostMapping("/user/delete/{id}")
     public String deleteUser(@PathVariable long id, Model model) {
         try {
             this.userService.handleDeleteUser(id);

@@ -73,6 +73,7 @@
                                                 <th class="px-3 py-3">Full Name</th>
                                                 <th class="px-3 py-3">Phone Number</th>
                                                 <th class="px-3 py-3">Address</th>
+                                                <th class="px-3 py-3">Role</th>
                                                 <th class="px-3 py-3 text-center">Action</th>
                                             </tr>
                                         </thead>
@@ -88,6 +89,7 @@
                                                             <td class="px-3 py-3">${user.fullName}</td>
                                                             <td class="px-3 py-3">${user.phoneNumber}</td>
                                                             <td class="px-3 py-3">${user.address}</td>
+                                                            <td class="px-3 py-3">${user.role.name}</td>
                                                             <td class="px-3 py-3 text-center">
                                                                 <div class="btn-group" role="group">
                                                                     <a href="/admin/user/${user.id}"

@@ -90,4 +90,13 @@ public class UploadService {
             return false;
         }
     }
+
+    /**
+     * Xóa file avatar
+     * 
+     * @param fileName tên file cần xóa
+     */
+    public void deleteAvatarFile(String fileName) {
+        deleteUploadFile(fileName, "avatar");
+    }
 }

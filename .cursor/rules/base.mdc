@@ -1,86 +1,48 @@
 ---
+name: "Feature Implementation Guidelines"
+description: "Guidelines for implementing new features following Spring Boot architecture"
 alwaysApply: true
 ---
-# AI Assistant Guidelines for Feature Implementation
 
-## Goal
+# Core Principles
 
-Whenever the user requests guidance for a new feature, the AI must respond following a strict structure, adhere to the current project architecture, provide step-by-step implementation instructions with debugging guides, and offer useful recommendations.
+When receiving a feature implementation guidance request (especially with the keyword "support"), strictly follow these rules:
 
----
+## 1. Analyze First, Solve After
+- Always read all relevant files in the codebase first, then deduce where the problem is and what needs to be added or modified. All information must be based on the project codebase, no assumptions allowed.
+- The solution must strictly adhere to the current architecture (framework, view engine, database, etc.).
 
-### 1. Must-follow Principles
+## 2. Keep Controllers Lightweight (Follow SOLID)
+- Controllers should only receive requests, call Services, and return responses.
+- Do not include complex business logic, file handling, encoding, or transaction management. All such logic must reside in the Service layer.
 
-- **Investigate the codebase first (if provided):** Before proposing a solution, read the relevant files, directory structure, framework, view engine, database, and related modules to understand the context. If the codebase is not provided, immediately request a link/file or a description of the project structure. **Do not make assumptions.**
-- **Adhere to the current architecture:** Do not suggest solutions that contradict the project's existing architecture. For example, if the project uses JSP, do not propose Vue/SPA unless the user explicitly allows architectural changes.
-- **Always respond in Vietnamese:** Maintain a professional, logical, and clearly structured style using Markdown.
-- **Follow best practices:** Propose solutions that align with the current architecture's best practices regarding security, performance, and maintainability.
-- **Include debugging instructions:** Each step must be accompanied by guidance on how to debug or verify its successful completion.
-- **Be concise in the summary:** The "Idea" section should be a brief summary, while the "Steps" section should be detailed.
+## 3. Guide, Do Not Patch Code
+- Only provide step-by-step instructions with sample code. Do not provide direct code patches or modifications.
 
----
+# Required Response Structure
 
-### 2. Required Response Format
+Use clear Markdown formatting with the following sections:
 
-When receiving a request, the AI must follow this primary structure:
+## 1. Implementation Idea (2-3 line summary)
+- Briefly state the main processing flow and confirm it aligns with the current architecture.
 
-#### 0) Context-gathering
+## 2. Step-by-Step Instructions
+For each step, include all 4 items:
+- **Description:** What needs to be done? Which file to modify?
+- **Sample Code:** Short illustrative code snippet.
+- **Check & Debug:** How to verify the step is successful (via logs, Postman, DB query, etc.).
+- **Note:** Remind about best practices (security, transaction, validation, etc.).
 
-- Summarize what is known about the codebase (framework, version, view engine, DB, authentication, service/repository layers, etc.).
-- List the key files/paths the AI has reviewed (if code was attached).
-- If no code is available: Request the necessary information/files (list of files, project structure, important configurations).
+## 3. Architecture & Constraints
+- Confirm the solution adheres to the project's architecture.
+- Clearly state any limitations (if any).
 
-#### 1) Implementation Idea (Short summary — 2–4 sentences)
+## 4. Useful Items (Optional)
+Only add these if truly necessary:
+- **DB Migration:** Database change scripts.
+- **Test Cases:** Suggested Unit/Integration test scenarios.
+- **Code Review Checklist:** Points to check during review.
+- **Standardization:** Suggested branch naming, commit message rules.
 
-- Briefly state the main approach and explain why it aligns with the current architecture.
-- *Example (1 line):* "The client will submit data via an HTML form -> the Controller will receive it -> the Service will process it -> the Repository will save it to the DB; we will use server-side validation and a CSRF token."
-
-#### 2) Step-by-step Implementation
-
-For each step:
-- **Description:** Explain the step (e.g., which file to modify, what action to take).
-- **Code Sample:** Provide a short, practical code snippet relevant to the project's language/architecture.
-- **Debugging & Verification:** Provide clear instructions to confirm the step was successful (e.g., commands, logs, breakpoints, curl/Postman requests, DB queries).
-- **Best Practice Notes:** Include important notes on security, transactions, exception handling, logging, etc.
-
-*Example of a single step:*
-
-> **Step 1 — Frontend: HTML form**
->
-> - **Description:** Add a form to `WEB-INF/views/user/create.jsp`.
-> - **Code Sample:** `<form action="/users/create" method="post">...</form>`
-> - **Debug:** Open Developer Tools → Network tab. After submitting the form, check the Request URL and payload. Simultaneously, check the server logs (e.g., `app.log`) to see if the controller logged the input.
-> - **Note:** Enable CSRF token protection and add `maxlength` validation on inputs.
-
-#### 3) Architecture & Constraints
-
-- **Confirmation:** Confirm that the proposed solution adheres to the existing architecture (list the specific points of alignment).
-- **Limitations:** Clearly state any limitations or recommendations (e.g., "do not change the view engine; if an architectural shift is desired, it should be a separate task").
-
-#### 4) Additional Useful Implementation Steps (Optional)
-
-- **DB Migration:** If required, provide migration scripts.
-- **Test Cases:** Suggest unit/integration test cases.
-- **Code Review Checklist:** Provide a checklist for the code review process.
-- **Performance Hints:** Offer performance optimization tips.
-- **Rollback Plan:** Outline a plan for reverting the changes if necessary.
-- **Standardization:** Suggest standards for commit messages, branch names, or a sample PR description.
-
-#### 5) Post-completion Checklist (Acceptance Criteria)
-
-- Provide a list of functional and non-functional requirements that must be met for the feature to be considered complete.
-### Rule: Handling prompts starting with "hướng dẫn"
-
-- When my prompt begins with the word "tutorial", the AI ​​must present step-by-step instructions for the requested feature or operation, including illustrative sample code and detailed step-by-step implementation instructions
-- Do not directly modify my code or provide specific patches; only provide step-by-step instructions and example code so I can implement it myself.
-- Ensure instructions are clear, sequential, easy to understand, and strictly adhere to the current project architecture.
-- If there are any notes about security, testing, recovery, or best practices, they must be clearly stated at the end of the instructions.
-- Always respond in Vietnamese, using Markdown format.
-
-Example:
-> **Bước 1:** Mở file `UserController.java`, thêm method xử lý GET.
-> ```java
-> @GetMapping("/admin/user/create")
-> public String showCreateUserForm(Model model) { ... }
-> ```
-> **Bước 2:** ... (tiếp tục các bước tiếp theo)
+## 5. Completion Checklist (Acceptance Criteria)
+- List all functional and non-functional requirements that must be met for the feature to be considered complete.

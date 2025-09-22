@@ -46,7 +46,8 @@
                                 <div class="col-md-6">
                                     <div class="card">
                                         <div class="card-body">
-                                            <form:form action="/admin/user/edit" method="POST" modelAttribute="user">
+                                            <form:form action="/admin/user/edit/${user.id}" method="POST"
+                                                modelAttribute="user" enctype="multipart/form-data">
                                                 <!-- Row 1: Email & Password -->
                                                 <div class="row mb-3">
                                                     <div class=" col-12 col-md-6">
@@ -92,28 +93,72 @@
 
                                                 <!-- Row 4: Role & Avatar -->
                                                 <div class="row mb-4">
-                                                    <div class=" col-12 col-md-6">
+                                                    <div class="col-12 col-md-6">
                                                         <label class="form-label fw-medium">Role:</label>
-                                                        <select class="form-select form-select-lg" name="role">
-                                                            <option value="ADMIN" selected>ADMIN</option>
-                                                            <option value="USER">USER</option>
-                                                            <option value="MANAGER">MANAGER</option>
+                                                        <select class="form-select form-select-lg" name="roleName">
+                                                            <c:forEach var="role" items="${roles}">
+                                                                <option value="${role.name}" ${user.role !=null &&
+                                                                    user.role.name==role.name ? 'selected' : '' }>
+                                                                    ${role.name}
+                                                                </option>
+                                                            </c:forEach>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label class="form-label fw-medium">Avatar:</label>
                                                         <div class="input-group">
                                                             <input type="file" class="form-control form-control-lg"
-                                                                name="avatar" id="avatarFile"
-                                                                accept="image/png, image/jpeg, image/jpg">
+                                                                name="avatarFile" id="avatarFile"
+                                                                accept="image/png, image/jpeg, image/jpg" />
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <!-- Row 5: Avatar Preview (TRONG row) -->
-                                                <div class="row mb-3">
-                                                    <div class="col-12 text-center">
-                                                        <img style="max-height: 250px; display: none; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"
-                                                            alt="avatar preview" id="avatarPreview" />
+                                                <!-- Row 5: Current Avatar & Preview -->
+                                                <div class="row mb-4">
+                                                    <div class="col-12">
+                                                        <label class="form-label fw-medium">
+                                                            <i class="fas fa-image text-primary me-2"></i>Avatar
+                                                        </label>
+                                                        <div
+                                                            class="d-flex align-items-center justify-content-center gap-4 p-3 bg-light rounded">
+                                                            <!-- Avatar hiện tại -->
+                                                            <div class="text-center">
+                                                                <c:choose>
+                                                                    <c:when test="${not empty user.avatar}">
+                                                                        <img src="/images/avatar/${user.avatar}"
+                                                                            alt="Current Avatar"
+                                                                            class="img-fluid rounded-circle border border-3 border-primary"
+                                                                            style="width: 80px; height: 80px; object-fit: cover;">
+                                                                        <p class="small text-muted mt-2 mb-0 fw-bold">
+                                                                            Hiện tại</p>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center border border-3 border-secondary"
+                                                                            style="width: 80px; height: 80px;">
+                                                                            <i class="fas fa-user text-white fa-2x"></i>
+                                                                        </div>
+                                                                        <p class="small text-muted mt-2 mb-0">Chưa có
+                                                                        </p>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </div>
+
+                                                            <!-- Arrow -->
+                                                            <div class="text-center" id="arrowIcon"
+                                                                style="display: none;">
+                                                                <i class="fas fa-arrow-right text-success fa-2x"></i>
+                                                            </div>
+
+                                                            <!-- Preview avatar mới -->
+                                                            <div class="text-center" id="newAvatarContainer"
+                                                                style="display: none;">
+                                                                <img id="avatarPreview" alt="New Avatar Preview"
+                                                                    class="img-fluid rounded-circle border border-3 border-success"
+                                                                    style="width: 80px; height: 80px; object-fit: cover;">
+                                                                <p class="small text-success mt-2 mb-0 fw-bold">Mới</p>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div>
@@ -127,6 +172,41 @@
                     </main>
                     <jsp:include page="../layout/footer.jsp" />
                 </div>
+                <script>
+                    document.getElementById('avatarFile').addEventListener('change', function (e) {
+                        const file = e.target.files[0];
+                        const preview = document.getElementById('avatarPreview');
+                        const container = document.getElementById('newAvatarContainer');
+                        const arrow = document.getElementById('arrowIcon');
+
+                        if (file) {
+                            // Validate file type
+                            if (!file.type.startsWith('image/')) {
+                                alert('Vui lòng chọn file ảnh!');
+                                this.value = '';
+                                return;
+                            }
+
+                            // Validate file size (5MB)
+                            if (file.size > 5 * 1024 * 1024) {
+                                alert('File quá lớn! Vui lòng chọn file nhỏ hơn 5MB.');
+                                this.value = '';
+                                return;
+                            }
+
+                            const reader = new FileReader();
+                            reader.onload = function (e) {
+                                preview.src = e.target.result;
+                                container.style.display = 'block';
+                                arrow.style.display = 'block';
+                            }
+                            reader.readAsDataURL(file);
+                        } else {
+                            container.style.display = 'none';
+                            arrow.style.display = 'none';
+                        }
+                    });
+                </script>
 
             </body>
 

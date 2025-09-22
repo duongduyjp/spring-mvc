@@ -99,10 +99,20 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="bg-light fw-bold">
-                                                            <i class="fas fa-calendar text-primary me-2"></i>Created
+                                                            <i class="fas fa-calendar text-primary me-2"></i>Role
                                                         </td>
                                                         <td class="px-4 py-3">
-                                                            <span class="badge bg-success">Active</span>
+                                                            <span class="badge bg-success">${user.role.name}</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bg-light fw-bold">
+                                                            <i class="fas fa-calendar text-primary me-2"></i>Avatar
+                                                        </td>
+                                                        <td class="px-4 py-3">
+                                                            <img src="/images/avatar/${user.avatar}" alt="Avatar"
+                                                                class="img-fluid"
+                                                                style="max-width: 100px; max-height: 100px;">
                                                         </td>
                                                     </tr>
                                                 </tbody>

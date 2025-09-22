@@ -37,7 +37,7 @@ public class User {
     private String avatar;
 
     // Một user có một role
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private Role role;
 
