@@ -1,0 +1,1 @@
+2025-09-23T13:01:33.149Z | server_start | {"name":"mysql-mcp-server","version":"1.0.0","logDir":"./logs","logFile":"logs/mcp-mysql.log"} | SUCCESS | RESPONSE: {"status":"started"}

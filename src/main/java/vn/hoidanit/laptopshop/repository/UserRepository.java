@@ -8,7 +8,8 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    User save(User user);
+    // Không cần thiết override lại phương thức save(User user) vì JpaRepository đã
+    // cung cấp sẵn.
 
     List<User> findByEmailAndAddress(String email, String address);
 

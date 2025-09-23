@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 import vn.hoidanit.laptopshop.service.UserService;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/admin")
@@ -106,12 +108,12 @@ public class UserController {
     // create user
     @PostMapping("/user/create")
     public String createUser(Model model,
-            @ModelAttribute("user") User user,
+            @Valid @ModelAttribute("user") User user,
             BindingResult bindingResult,
             @RequestParam("roleName") String roleName,
             @RequestParam(value = "avatarFile", required = false) MultipartFile avatarFile) {
 
-        // 1. Kiểm tra validation errors
+        // Kiểm tra validation errors
         if (bindingResult.hasErrors()) {
             List<Role> roles = this.roleService.getAllRoles();
             model.addAttribute("roles", roles);
@@ -133,7 +135,7 @@ public class UserController {
     @PostMapping("/user/edit/{id}")
     public String updateUser(Model model,
             @PathVariable long id,
-            @ModelAttribute("user") User user,
+            @Valid @ModelAttribute("user") User user,
             BindingResult bindingResult,
             @RequestParam(value = "roleName", required = false) String roleName,
             @RequestParam(value = "avatarFile", required = false) MultipartFile avatarFile) {

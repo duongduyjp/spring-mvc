@@ -52,21 +52,34 @@
                                         <div class="card-body">
                                             <form:form action="/admin/user/create" method="POST" modelAttribute="user"
                                                 enctype="multipart/form-data">
+
+                                                <!-- Global Error Messages -->
+                                                <c:if test="${not empty error}">
+                                                    <div class="alert alert-danger mb-3">
+                                                        ${error}
+                                                    </div>
+                                                </c:if>
+
                                                 <!-- Row 1: Email & Password -->
                                                 <div class="row mb-3">
                                                     <div class=" col-12 col-md-6">
                                                         <form:label path="email" cssClass="form-label fw-medium">Email:
+                                                            <span class="text-danger">*</span>
                                                         </form:label>
                                                         <form:input path="email" type="email"
                                                             cssClass="form-control form-control-lg"
                                                             placeholder="Enter email address" />
+                                                        <form:errors path="email"
+                                                            cssClass="text-danger small d-block mt-1" />
                                                     </div>
                                                     <div class=" col-12 col-md-6">
                                                         <form:label path="password" cssClass="form-label fw-medium">
-                                                            Password:</form:label>
+                                                            Password: <span class="text-danger">*</span></form:label>
                                                         <form:password path="password"
                                                             cssClass="form-control form-control-lg"
                                                             placeholder="Enter password" />
+                                                        <form:errors path="password"
+                                                            cssClass="text-danger small d-block mt-1" />
                                                     </div>
                                                 </div>
 
@@ -77,12 +90,16 @@
                                                             Phone number:</form:label>
                                                         <form:input path="phoneNumber" type="tel"
                                                             cssClass="form-control form-control-lg" />
+                                                        <form:errors path="phoneNumber"
+                                                            cssClass="text-danger small d-block mt-1" />
                                                     </div>
                                                     <div class=" col-12 col-md-6">
                                                         <form:label path="fullName" cssClass="form-label fw-medium">Full
-                                                            Name:</form:label>
+                                                            Name: <span class="text-danger">*</span></form:label>
                                                         <form:input path="fullName" type="text"
                                                             cssClass="form-control form-control-lg" />
+                                                        <form:errors path="fullName"
+                                                            cssClass="text-danger small d-block mt-1" />
                                                     </div>
                                                 </div>
                                                 <!-- Row 3: Address (Full Width) -->
@@ -92,6 +109,8 @@
                                                         </form:label>
                                                         <form:input path="address" type="text"
                                                             cssClass="form-control form-control-lg" />
+                                                        <form:errors path="address"
+                                                            cssClass="text-danger small d-block mt-1" />
                                                     </div>
                                                 </div>
 

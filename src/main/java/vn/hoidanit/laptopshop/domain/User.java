@@ -17,6 +17,14 @@ import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
+// Validation imports
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
+import jakarta.persistence.Column;
+
 @Entity
 @Table(name = "users")
 @Getter
@@ -29,11 +37,23 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotBlank(message = "Email không được để trống")
+    @Email(message = "Email không đúng định dạng")
+    @Size(max = 100, message = "Email không được quá 100 ký tự")
+    @Column(unique = true)
     private String email;
+
+    @NotBlank(message = "Mật khẩu không được để trống")
+    @Size(min = 6, max = 100, message = "Mật khẩu phải từ 6-100 ký tự")
     private String password;
+
     private String phoneNumber;
+
+    @NotBlank(message = "Họ tên không được để trống")
     private String fullName;
+
     private String address;
+
     private String avatar;
 
     // Một user có một role
