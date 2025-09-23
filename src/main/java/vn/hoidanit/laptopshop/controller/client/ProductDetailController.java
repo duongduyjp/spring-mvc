@@ -18,12 +18,11 @@ public class ProductDetailController {
 
     @GetMapping("/product/{id}")
     public String getProductDetail(@PathVariable long id, Model model) {
-        // Optional<Product> productOpt = productService.getProductById(id);
-        // if (productOpt.isPresent()) {
-        // model.addAttribute("product", productOpt.get());
-        // return "client/product/detail";
-        // }
-        // return "redirect:/"; // Redirect về homepage nếu không tìm thấy
-        return "client/product/detail";
+        Optional<Product> productOpt = productService.getProductById(id);
+        if (productOpt.isPresent()) {
+            model.addAttribute("product", productOpt.get());
+            return "client/product/detail";
+        }
+        return "redirect:/";
     }
 }

@@ -97,7 +97,7 @@ public class UserService {
     }
 
     public List<User> getUserByEmail(String email) {
-        return this.userRepository.findAll();
+        return this.userRepository.findByEmail(email);
     }
 
     public User getUserById(long id) {

@@ -19,6 +19,14 @@ public class HomePageController {
     public String getHomePage(Model model) {
         List<Product> products = productService.getAllProducts();
         model.addAttribute("products", products);
+
+        // Lấy một vài sản phẩm đặc biệt cho banner carousel
+        if (!products.isEmpty()) {
+            // Lấy 3 sản phẩm đầu tiên để hiển thị trong banner
+            List<Product> featuredProducts = products.size() >= 3 ? products.subList(0, 3) : products;
+            model.addAttribute("featuredProducts", featuredProducts);
+        }
+
         return "client/homepage/index";
     }
 }

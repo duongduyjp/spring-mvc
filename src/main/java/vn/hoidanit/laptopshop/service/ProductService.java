@@ -5,13 +5,16 @@ import vn.hoidanit.laptopshop.repository.ProductRepository;
 import vn.hoidanit.laptopshop.domain.Product;
 import java.util.List;
 import java.util.Optional;
+import vn.hoidanit.laptopshop.service.UploadService;
 
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
+    private final UploadService uploadService;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, UploadService uploadService) {
         this.productRepository = productRepository;
+        this.uploadService = uploadService;
     }
 
     public List<Product> getAllProducts() {
@@ -24,5 +27,18 @@ public class ProductService {
 
     public Product createProduct(Product product) {
         return productRepository.save(product);
+    }
+
+    public void deleteProduct(long id) {
+        Product product = this.productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+        this.productRepository.delete(product);
+        if (product.getImage() != null && !product.getImage().trim().isEmpty()) {
+            try {
+                this.uploadService.deleteUploadFile(product.getImage(), "products");
+            } catch (Exception e) {
+                System.err.println("Error deleting product image: " + e.getMessage());
+            }
+        }
     }
 }
