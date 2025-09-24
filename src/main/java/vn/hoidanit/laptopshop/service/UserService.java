@@ -88,6 +88,7 @@ public class UserService {
         existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
         existingUser.setFullName(updatedUser.getFullName());
         existingUser.setAddress(updatedUser.getAddress());
+        existingUser.setEmail(updatedUser.getEmail());
 
         return this.userRepository.save(existingUser);
     }

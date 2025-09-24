@@ -56,6 +56,8 @@
                                                         <form:input path="email" type="email"
                                                             cssClass="form-control form-control-lg"
                                                             placeholder="Enter email address" />
+                                                        <form:errors path="email"
+                                                            cssClass="text-danger small d-block mt-1" />
                                                     </div>
                                                     <div class=" col-12 col-md-6">
                                                         <form:label path="password" cssClass="form-label fw-medium">
@@ -63,6 +65,8 @@
                                                         <form:password path="password"
                                                             cssClass="form-control form-control-lg"
                                                             placeholder="Enter password" />
+                                                        <form:errors path="password"
+                                                            cssClass="text-danger small d-block mt-1" />
                                                     </div>
                                                 </div>
 
@@ -79,6 +83,8 @@
                                                             Name:</form:label>
                                                         <form:input path="fullName" type="text"
                                                             cssClass="form-control form-control-lg" />
+                                                        <form:errors path="fullName"
+                                                            cssClass="text-danger small d-block mt-1" />
                                                     </div>
                                                 </div>
                                                 <!-- Row 3: Address (Full Width) -->

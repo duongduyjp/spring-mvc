@@ -149,8 +149,10 @@ public class UserController {
         // Kiểm tra validation errors
         if (bindingResult.hasErrors()) {
             List<Role> roles = this.roleService.getAllRoles();
-            model.addAttribute("user", existingUser);
+            // Preserve the avatar from existing user to avoid losing it
+            user.setAvatar(existingUser.getAvatar());
             model.addAttribute("roles", roles);
+            model.addAttribute("user", user);
             return "admin/user/edit";
         }
 
@@ -160,7 +162,9 @@ public class UserController {
             return "redirect:/admin/user?success=true&message=User updated successfully";
         } catch (Exception e) {
             List<Role> roles = this.roleService.getAllRoles();
-            model.addAttribute("user", existingUser);
+            // Preserve the avatar from existing user to avoid losing it
+            user.setAvatar(existingUser.getAvatar());
+            model.addAttribute("user", user);
             model.addAttribute("roles", roles);
             model.addAttribute("error", e.getMessage());
             return "admin/user/edit";

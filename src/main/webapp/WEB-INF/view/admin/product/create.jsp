@@ -1,7 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-            <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+            <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 
                 <!DOCTYPE html>
@@ -72,17 +72,23 @@
                                                                 </form:label>
                                                                 <form:input path="name" type="text"
                                                                     cssClass="form-control form-control-lg" />
+                                                                <form:errors path="name"
+                                                                    cssClass="text-danger small d-block mt-1" />
                                                             </div>
                                                             <div class=" col-12 col-md-6">
                                                                 <form:label path="price"
                                                                     cssClass="form-label fw-medium">
                                                                     Price:</form:label>
+
                                                                 <div class="input-group">
                                                                     <form:input path="price" type="text"
                                                                         cssClass="form-control form-control-lg"
                                                                         placeholder="Nhập giá sản phẩm" />
+                                                                    <form:errors path="price"
+                                                                        cssClass="text-danger small d-block mt-1" />
                                                                     <span class="input-group-text">VNĐ</span>
                                                                 </div>
+
                                                                 <small class="text-muted">Ví dụ: 15000000 (15 triệu
                                                                     VNĐ)</small>
                                                             </div>
@@ -96,6 +102,8 @@
                                                                     Quantity:</form:label>
                                                                 <form:input path="quantity" type="number"
                                                                     cssClass="form-control form-control-lg" />
+                                                                <form:errors path="quantity"
+                                                                    cssClass="text-danger small d-block mt-1" />
                                                             </div>
                                                             <div class=" col-12 col-md-6">
                                                                 <form:label path="sold" cssClass="form-label fw-medium">
@@ -103,6 +111,8 @@
                                                                 </form:label>
                                                                 <form:input path="sold" type="number"
                                                                     cssClass="form-control form-control-lg" />
+                                                                <form:errors path="sold"
+                                                                    cssClass="text-danger small d-block mt-1" />
                                                             </div>
                                                         </div>
 
@@ -120,6 +130,8 @@
                                                                     <form:option value="Lenovo" label="Lenovo" />
                                                                     <form:option value="Toshiba" label="Toshiba" />
                                                                 </form:select>
+                                                                <form:errors path="factory"
+                                                                    cssClass="text-danger small d-block mt-1" />
                                                             </div>
                                                             <div class=" col-12 col-md-6">
                                                                 <form:label path="target"
@@ -134,6 +146,8 @@
                                                                     <form:option value="Gaming" label="Gaming" />
                                                                     <form:option value="Designer" label="Designer" />
                                                                 </form:select>
+                                                                <form:errors path="target"
+                                                                    cssClass="text-danger small d-block mt-1" />
                                                             </div>
                                                         </div>
 
@@ -145,6 +159,8 @@
                                                                 </form:label>
                                                                 <form:textarea path="shortDesc" rows="2"
                                                                     cssClass="form-control form-control-lg" />
+                                                                <form:errors path="shortDesc"
+                                                                    cssClass="text-danger small d-block mt-1" />
                                                             </div>
                                                         </div>
 
@@ -157,6 +173,8 @@
                                                                 </form:label>
                                                                 <form:textarea path="detailDesc" rows="4"
                                                                     cssClass="form-control form-control-lg" />
+                                                                <form:errors path="detailDesc"
+                                                                    cssClass="text-danger small d-block mt-1" />
                                                             </div>
                                                         </div>
 

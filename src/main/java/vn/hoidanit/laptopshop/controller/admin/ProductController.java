@@ -17,6 +17,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vn.hoidanit.laptopshop.service.UploadService;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import jakarta.validation.Valid;
 
 @Controller
 public class ProductController {
@@ -69,7 +72,7 @@ public class ProductController {
 
     // create product
     @PostMapping("/admin/product/create")
-    public String handleCreateProduct(@ModelAttribute("product") Product product,
+    public String handleCreateProduct(@Valid @ModelAttribute("product") Product product,
             BindingResult bindingResult,
             @RequestParam("imageFile") MultipartFile imageFile,
             Model model,
@@ -99,26 +102,30 @@ public class ProductController {
 
     // update product
     @PostMapping("/admin/product/edit/{id}")
-    public String handleUpdateProduct(@ModelAttribute("product") Product product,
-            @PathVariable long id,
+    public String handleUpdateProduct(@PathVariable long id,
+            @Valid @ModelAttribute("product") Product product,
             BindingResult bindingResult,
             @RequestParam("imageFile") MultipartFile imageFile,
             Model model,
             RedirectAttributes redirectAttributes) {
 
+        // Get existing product to preserve current image if no new image uploaded
+        Optional<Product> existingProductOpt = productService.getProductById(id);
+        if (!existingProductOpt.isPresent()) {
+            return "redirect:/admin/product?error=true&message=Product not found";
+        }
+
+        Product existingProduct = existingProductOpt.get();
+
+        // Handle validation errors
         if (bindingResult.hasErrors()) {
+            // Preserve the image from existing product to avoid losing it
+            product.setImage(existingProduct.getImage());
+            model.addAttribute("product", product);
             return "admin/product/edit";
         }
 
         try {
-            // Get existing product to preserve current image if no new image uploaded
-            Optional<Product> existingProductOpt = productService.getProductById(id);
-            if (!existingProductOpt.isPresent()) {
-                return "redirect:/admin/product?error=true&message=Product not found";
-            }
-
-            Product existingProduct = existingProductOpt.get();
-
             // Handle image upload
             if (!imageFile.isEmpty()) {
                 String imageName = uploadService.handleSaveUploadFile(imageFile, "products");
@@ -136,8 +143,8 @@ public class ProductController {
             return "redirect:/admin/product?success=true&message=Product updated successfully!";
 
         } catch (Exception e) {
-            model.addAttribute("error", "Error updating product: " + e.getMessage());
             model.addAttribute("product", product);
+            model.addAttribute("error", "Error updating product: " + e.getMessage());
             return "admin/product/edit";
         }
     }

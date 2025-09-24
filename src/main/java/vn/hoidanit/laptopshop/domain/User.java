@@ -40,7 +40,6 @@ public class User {
     @NotBlank(message = "Email không được để trống")
     @Email(message = "Email không đúng định dạng")
     @Size(max = 100, message = "Email không được quá 100 ký tự")
-    @Column(unique = true)
     private String email;
 
     @NotBlank(message = "Mật khẩu không được để trống")
