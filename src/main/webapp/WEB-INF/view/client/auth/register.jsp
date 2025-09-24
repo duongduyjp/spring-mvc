@@ -27,7 +27,7 @@
                                                 <h3 class="text-center font-weight-light my-4">Create Account</h3>
                                             </div>
                                             <div class="card-body">
-                                                <form:form action="/register" method="POST" modelAttribute="user"
+                                                <form:form action="/register" method="POST" modelAttribute="registerDTO"
                                                     enctype="multipart/form-data">
 
                                                     <!-- Global Error Messages -->
@@ -37,60 +37,61 @@
                                                         </div>
                                                     </c:if>
 
-                                                    <!-- Row 1: Email & Password -->
+                                                    <!-- Row 1: First Name & Last Name -->
                                                     <div class="row mb-3">
                                                         <div class=" col-12 col-md-6">
-                                                            <form:label path="email" cssClass="form-label fw-medium">
-                                                                Email:
+                                                            <form:label path="firstName"
+                                                                cssClass="form-label fw-medium">
+                                                                First Name:
                                                                 <span class="text-danger">*</span>
                                                             </form:label>
-                                                            <form:input path="email" type="email"
+                                                            <form:input path="firstName" type="text"
                                                                 cssClass="form-control form-control-lg"
-                                                                placeholder="Enter email address" />
-                                                            <form:errors path="email"
+                                                                placeholder="Enter first name" />
+                                                            <form:errors path="firstName"
                                                                 cssClass="text-danger small d-block mt-1" />
                                                         </div>
                                                         <div class=" col-12 col-md-6">
-                                                            <form:label path="password" cssClass="form-label fw-medium">
-                                                                Password: <span class="text-danger">*</span>
+                                                            <form:label path="lastName" cssClass="form-label fw-medium">
+                                                                Last Name: <span class="text-danger">*</span>
                                                             </form:label>
-                                                            <form:password path="password"
+                                                            <form:input path="lastName" type="text"
                                                                 cssClass="form-control form-control-lg"
-                                                                placeholder="Enter password" />
-                                                            <form:errors path="password"
+                                                                placeholder="Enter last name" />
+                                                            <form:errors path="lastName"
                                                                 cssClass="text-danger small d-block mt-1" />
                                                         </div>
                                                     </div>
 
-                                                    <!-- Row 2: Phone & Full Name -->
+                                                    <!-- Row 2: Password & Confirm Password -->
                                                     <div class="row mb-3">
                                                         <div class=" col-12 col-md-6">
-                                                            <form:label path="phoneNumber"
-                                                                cssClass="form-label fw-medium">
-                                                                Phone number:</form:label>
-                                                            <form:input path="phoneNumber" type="tel"
+                                                            <form:label path="password" cssClass="form-label fw-medium">
+                                                                Password:</form:label>
+                                                            <form:input path="password" type="password"
                                                                 cssClass="form-control form-control-lg" />
-                                                            <form:errors path="phoneNumber"
+                                                            <form:errors path="password"
                                                                 cssClass="text-danger small d-block mt-1" />
                                                         </div>
                                                         <div class=" col-12 col-md-6">
-                                                            <form:label path="fullName" cssClass="form-label fw-medium">
-                                                                Full
-                                                                Name: <span class="text-danger">*</span></form:label>
-                                                            <form:input path="fullName" type="text"
+                                                            <form:label path="confirmPassword"
+                                                                cssClass="form-label fw-medium">
+                                                                Confirm Password: <span class="text-danger">*</span>
+                                                            </form:label>
+                                                            <form:input path="confirmPassword" type="password"
                                                                 cssClass="form-control form-control-lg" />
-                                                            <form:errors path="fullName"
+                                                            <form:errors path="confirmPassword"
                                                                 cssClass="text-danger small d-block mt-1" />
                                                         </div>
                                                     </div>
-                                                    <!-- Row 3: Address (Full Width) -->
+                                                    <!-- Row 3: Email -->
                                                     <div class="row mb-3">
                                                         <div class="col-md-12">
-                                                            <form:label path="address" cssClass="form-label">Address:
+                                                            <form:label path="email" cssClass="form-label">Email:
                                                             </form:label>
-                                                            <form:input path="address" type="text"
+                                                            <form:input path="email" type="email"
                                                                 cssClass="form-control form-control-lg" />
-                                                            <form:errors path="address"
+                                                            <form:errors path="email"
                                                                 cssClass="text-danger small d-block mt-1" />
                                                         </div>
                                                     </div>

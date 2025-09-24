@@ -175,7 +175,6 @@
                                             </div>
                                             <!-- Kết thúc danh sách sản phẩm dạng lưới -->
                                             <!-- Các tính năng nổi bật -->
-                                            <jsp:include page="../layout/feature.jsp" />
 
                                             <!-- Pagination Start -->
                                             <!-- Phân trang sản phẩm -->
@@ -226,7 +225,7 @@
                                             </c:if>
                                             <!-- Kết thúc phân trang -->
                                             <!-- Pagination End -->
-
+                                            <jsp:include page="../layout/feature.jsp" />
                                         </div>
                                     </div>
                                 </div>
