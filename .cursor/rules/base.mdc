@@ -1,9 +1,6 @@
 ---
-name: "Feature Implementation Guidelines"
-description: "Guidelines for implementing new features following Spring Boot architecture"
 alwaysApply: true
 ---
-
 # Core Principles
 
 When receiving a feature implementation guidance request (especially with the keyword "support"), strictly follow these rules:
@@ -19,6 +16,7 @@ When receiving a feature implementation guidance request (especially with the ke
 ## 3. Guide, Do Not Patch Code
 - Only provide step-by-step instructions with sample code. Do not provide direct code patches or modifications.
 
+
 # Required Response Structure
 
 Use clear Markdown formatting with the following sections:
@@ -28,10 +26,18 @@ Use clear Markdown formatting with the following sections:
 
 ## 2. Step-by-Step Instructions
 For each step, include all 4 items:
-- **Description:** What needs to be done? Which file to modify?
-- **Sample Code:** Short illustrative code snippet.
-- **Check & Debug:** How to verify the step is successful (via logs, Postman, DB query, etc.).
-- **Note:** Remind about best practices (security, transaction, validation, etc.).
+- Must follow the **Template** (do not change unless user requests).  
+- Each change must include:
+
+0. **Description:** What needs to be done? Which file to modify?
+1. **File**: relative path.  
+2. **Action**: Edit / Create / Delete / Add line / Replace block.  
+3. **Position**: line range or clear marker (e.g., “before method saveProduct(...)”).  
+4. **Change Content**: full code snippet (not pseudocode).  
+   - For edits: show old vs new (unified diff or full block).  
+5. **Build/Run commands** (if needed).  
+6. **Config updates** (e.g., dependency snippet in `pom.xml`).  
+7. **Quick Test**: 1–2 commands or URLs to verify.  
 
 ## 3. Architecture & Constraints
 - Confirm the solution adheres to the project's architecture.

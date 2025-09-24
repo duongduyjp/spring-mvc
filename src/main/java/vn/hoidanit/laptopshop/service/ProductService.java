@@ -6,6 +6,9 @@ import vn.hoidanit.laptopshop.domain.Product;
 import java.util.List;
 import java.util.Optional;
 import vn.hoidanit.laptopshop.service.UploadService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 
 @Service
 public class ProductService {
@@ -41,4 +44,9 @@ public class ProductService {
             }
         }
     }
+
+    public Page<Product> getAllProducts(Pageable pageable) {
+        return this.productRepository.findAll(pageable);
+    }
+
 }

@@ -17,8 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vn.hoidanit.laptopshop.service.UploadService;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import jakarta.validation.Valid;
 
 @Controller
