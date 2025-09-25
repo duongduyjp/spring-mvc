@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import vn.hoidanit.laptopshop.service.UploadService;
 import vn.hoidanit.laptopshop.service.RoleService;
 import vn.hoidanit.laptopshop.domain.Role;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -97,12 +98,8 @@ public class UserService {
         return this.userRepository.findAll();
     }
 
-    public List<User> getUserByEmail(String email) {
-        return this.userRepository.findByEmail(email);
-    }
-
-    public User getUserById(long id) {
-        return this.userRepository.findById(id).orElse(null);
+    public Optional<User> getUserById(long id) {
+        return this.userRepository.findById(id);
     }
 
     public void handleDeleteUser(long id) {
@@ -121,4 +118,7 @@ public class UserService {
         this.userRepository.delete(user);
     }
 
+    public User getUserByEmail(String email) {
+        return this.userRepository.findByEmail(email);
+    }
 }

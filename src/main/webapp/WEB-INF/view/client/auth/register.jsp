@@ -67,7 +67,8 @@
                                                     <div class="row mb-3">
                                                         <div class=" col-12 col-md-6">
                                                             <form:label path="password" cssClass="form-label fw-medium">
-                                                                Password:</form:label>
+                                                                Password: <span class="text-danger">*</span>
+                                                            </form:label>
                                                             <form:input path="password" type="password"
                                                                 cssClass="form-control form-control-lg" />
                                                             <form:errors path="password"
@@ -88,6 +89,7 @@
                                                     <div class="row mb-3">
                                                         <div class="col-md-12">
                                                             <form:label path="email" cssClass="form-label">Email:
+                                                                <span class="text-danger">*</span>
                                                             </form:label>
                                                             <form:input path="email" type="email"
                                                                 cssClass="form-control form-control-lg" />

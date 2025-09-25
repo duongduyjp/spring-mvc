@@ -9,13 +9,20 @@ import java.util.List;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import vn.hoidanit.laptopshop.domain.User;
+import vn.hoidanit.laptopshop.repository.UserRepository;
+import java.util.Optional;
 
 @Controller
 public class HomePageController {
     private final ProductService productService;
+    private final UserRepository userRepository;
 
-    public HomePageController(ProductService productService) {
+    public HomePageController(ProductService productService, UserRepository userRepository) {
         this.productService = productService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/")
@@ -39,6 +46,19 @@ public class HomePageController {
             model.addAttribute("featuredProducts", featuredProducts);
         }
 
+        // Lấy user hiện tại để hiển thị trên navbar
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.isAuthenticated() && !(auth.getPrincipal() instanceof String)) {
+            org.springframework.security.core.userdetails.User securityUser = (org.springframework.security.core.userdetails.User) auth
+                    .getPrincipal();
+
+            // Lấy Domain User từ database bằng email
+            String userEmail = securityUser.getUsername();
+            User domainUser = userRepository.findByEmail(userEmail);
+            if (domainUser != null) {
+                model.addAttribute("currentUser", domainUser);
+            }
+        }
         return "client/homepage/index";
     }
 }

@@ -86,7 +86,7 @@ public class UserController {
     // show edit user form
     @GetMapping("/user/edit/{id}")
     public String getEditUserPage(Model model, @PathVariable long id) {
-        User user = this.userService.getUserById(id);
+        User user = this.userService.getUserById(id).orElse(null);
         if (user == null) {
             return "redirect:/admin/user?error=true&message=User not found";
         }
@@ -100,7 +100,7 @@ public class UserController {
     // show detail user
     @GetMapping("/user/{id}")
     public String getDetailUserPage(Model model, @PathVariable long id) {
-        User user = this.userService.getUserById(id);
+        User user = this.userService.getUserById(id).orElse(null);
         model.addAttribute("user", user);
         return "admin/user/detail";
     }
@@ -141,7 +141,7 @@ public class UserController {
             @RequestParam(value = "avatarFile", required = false) MultipartFile avatarFile) {
 
         // Kiểm tra user có tồn tại không
-        User existingUser = this.userService.getUserById(id);
+        User existingUser = this.userService.getUserById(id).orElse(null);
         if (existingUser == null) {
             return "redirect:/admin/user?error=true&message=User not found";
         }

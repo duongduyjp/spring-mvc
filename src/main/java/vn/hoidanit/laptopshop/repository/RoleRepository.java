@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
  * @param name tên role (ADMIN, USER, MANAGER)
  * @return Role object hoặc null
  */
+@Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
     Role findByName(String name);
 }
