@@ -39,10 +39,11 @@
                                             </c:if>
                                             <!-- Thêm error message cho Spring Security -->
                                             <c:if test="${param.error != null}">
-                                                <div class="alert alert-danger mb-3">
-                                                    Email hoặc mật khẩu không đúng!
+                                                <div class="mb-3 mx-3 mt-4" style="color: red;">Invalid email or
+                                                    password.
                                                 </div>
                                             </c:if>
+
 
                                             <c:if test="${param.logout != null}">
                                                 <div class="alert alert-success mb-3">
@@ -51,16 +52,20 @@
                                             </c:if>
                                             <div class="card-body">
                                                 <!-- Thay thế form Spring form bằng HTML form thông thường -->
-                                                <form action="/perform-login" method="POST">
+                                                <form action="/login" method="POST">
                                                     <div class="form-floating mb-3">
                                                         <input name="username" type="email" class="form-control"
-                                                            placeholder="name@example.com" required />
-                                                        <label for="username">Email address</label>
+                                                            required />
+                                                        <label for="username">Email</label>
                                                     </div>
                                                     <div class="form-floating mb-3">
                                                         <input name="password" type="password" class="form-control"
-                                                            placeholder="Password" required />
+                                                            required />
                                                         <label for="password">Password</label>
+                                                    </div>
+                                                    <div>
+                                                        <input type="hidden" name="${_csrf.parameterName}"
+                                                            value="${_csrf.token}" />
                                                     </div>
                                                     <div class="form-check mb-3">
                                                         <input class="form-check-input" id="inputRememberPassword"
