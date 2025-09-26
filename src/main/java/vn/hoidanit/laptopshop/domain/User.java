@@ -19,11 +19,9 @@ import lombok.Setter;
 
 // Validation imports
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
-import jakarta.validation.constraints.Pattern;
-import jakarta.persistence.Column;
+import jakarta.persistence.OneToOne;
 
 @Entity
 @Table(name = "users")
@@ -62,6 +60,9 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Order> orders = new ArrayList<>();
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Cart cart;
 
     @Override
     public String toString() {
