@@ -52,4 +52,10 @@ public class AuthController {
         return "client/auth/login";
     }
 
+    // Show access denied page
+    @GetMapping("/access-denied")
+    public String showAccessDeniedPage() {
+        return "client/auth/access-denied";
+    }
+
 }

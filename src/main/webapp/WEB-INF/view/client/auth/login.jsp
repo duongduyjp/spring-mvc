@@ -27,13 +27,13 @@
                                                 <h3 class="text-center font-weight-light my-4">Login</h3>
                                             </div>
                                             <c:if test="${param.success != null}">
-                                                <div class="alert alert-success mb-3">
-                                                    Đăng ký thành công! Vui lòng đăng nhập.
+                                                <div class="mb-3 mx-3 mt-4" style="color: green;">
+                                                    Successfully registered! Please login.
                                                 </div>
                                             </c:if>
 
                                             <c:if test="${not empty error}">
-                                                <div class="alert alert-danger mb-3">
+                                                <div class="mb-3 mx-3 mt-4" style="color: red;">
                                                     ${error}
                                                 </div>
                                             </c:if>
@@ -43,11 +43,9 @@
                                                     password.
                                                 </div>
                                             </c:if>
-
-
                                             <c:if test="${param.logout != null}">
-                                                <div class="alert alert-success mb-3">
-                                                    Đăng xuất thành công!
+                                                <div class="mb-3 mx-3 mt-4" style="color: green;">
+                                                    Successfully logged out!
                                                 </div>
                                             </c:if>
                                             <div class="card-body">

@@ -61,4 +61,5 @@ public class HomePageController {
         }
         return "client/homepage/index";
     }
+
 }

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import vn.hoidanit.laptopshop.controller.BaseController;
 
 import vn.hoidanit.laptopshop.service.UserService;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +27,7 @@ import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/admin")
-public class UserController {
+public class UserController extends BaseController {
     private UserService userService;
     private RoleService roleService;
     private UploadService uploadService;
