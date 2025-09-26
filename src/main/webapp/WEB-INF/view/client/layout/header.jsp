@@ -29,20 +29,35 @@
                                 <div class="dropdown my-auto">
                                     <a href="#" class="dropdown" role="button" id="dropdownMenuLink"
                                         data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fas fa-user fa-2x"></i>
+                                        <i class="fas fa-user-circle fa-2x me-3"></i>
                                     </a>
 
                                     <ul class="dropdown-menu dropdown-menu-end p-4" aria-labelledby="dropdownMenuLink">
                                         <li class="d-flex align-items-center flex-column" style="min-width: 300px;">
-                                            <img style="width: 150px; height: 150px; border-radius: 50%; overflow: hidden;"
-                                                src="/images/avatar/1758526718972-ChatGPT Image 13_50_27 7 thg 8, 2025.png" />
+                                            <c:choose>
+                                                <c:when
+                                                    test="${not empty currentUser and not empty currentUser.avatar}">
+                                                    <img style="width: 150px; height: 150px; border-radius: 50%; overflow: hidden;"
+                                                        src="/images/avatar/${currentUser.avatar}" />
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <img style="width: 150px; height: 150px; border-radius: 50%; overflow: hidden;"
+                                                        src="/images/avatar/default-avatar.png" />
+                                                </c:otherwise>
+                                            </c:choose>
                                             <div class="text-center my-3">
-                                                Duong Duy
+                                                <c:choose>
+                                                    <c:when test="${not empty currentUser.email}">
+                                                        ${currentUser.email}
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        ${pageContext.request.userPrincipal.name}
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </div>
                                         </li>
 
                                         <li><a class="dropdown-item" href="#">Quản lý tài khoản</a></li>
-
                                         <li><a class="dropdown-item" href="#">Lịch sử mua hàng</a></li>
                                         <li>
                                             <hr class="dropdown-divider">

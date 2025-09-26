@@ -34,8 +34,8 @@
                             </c:choose>
                             <div class="text-center my-3">
                                 <c:choose>
-                                    <c:when test="${not empty currentUser.fullName}">
-                                        ${currentUser.fullName}
+                                    <c:when test="${not empty currentUser.email}">
+                                        ${currentUser.email}
                                     </c:when>
                                     <c:otherwise>
                                         ${pageContext.request.userPrincipal.name}

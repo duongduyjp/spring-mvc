@@ -1,7 +1,6 @@
 package vn.hoidanit.laptopshop.service;
 
 import org.springframework.stereotype.Service;
-import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import vn.hoidanit.laptopshop.repository.UserRepository;
 import vn.hoidanit.laptopshop.domain.User;

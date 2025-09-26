@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import vn.hoidanit.laptopshop.domain.dto.RegisterDTO;
 import vn.hoidanit.laptopshop.repository.UserRepository;
 import vn.hoidanit.laptopshop.domain.User;
-import java.util.Optional;
 
 @Component
 public class RegisterValidator implements ConstraintValidator<RegisterValidation, RegisterDTO> {

@@ -6,8 +6,6 @@ import vn.hoidanit.laptopshop.domain.User;
 import java.util.List;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
-import vn.hoidanit.laptopshop.service.UploadService;
-import vn.hoidanit.laptopshop.service.RoleService;
 import vn.hoidanit.laptopshop.domain.Role;
 import java.util.Optional;
 
