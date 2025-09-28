@@ -7,15 +7,24 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import vn.hoidanit.laptopshop.repository.CartItemRepository;
+import vn.hoidanit.laptopshop.repository.CartRepository;
+import vn.hoidanit.laptopshop.domain.CartItem;
+import vn.hoidanit.laptopshop.domain.User;
 
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
     private final UploadService uploadService;
+    private final CartItemRepository cartItemRepository;
+    private final CartRepository cartRepository;
 
-    public ProductService(ProductRepository productRepository, UploadService uploadService) {
+    public ProductService(ProductRepository productRepository, UploadService uploadService,
+            CartItemRepository cartItemRepository, CartRepository cartRepository) {
         this.productRepository = productRepository;
         this.uploadService = uploadService;
+        this.cartItemRepository = cartItemRepository;
+        this.cartRepository = cartRepository;
     }
 
     public List<Product> getAllProducts() {

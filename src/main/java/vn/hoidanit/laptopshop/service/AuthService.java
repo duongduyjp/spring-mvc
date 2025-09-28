@@ -6,17 +6,22 @@ import vn.hoidanit.laptopshop.repository.UserRepository;
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.domain.dto.RegisterDTO;
 import vn.hoidanit.laptopshop.domain.Role;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Service
 public class AuthService {
     private PasswordEncoder passwordEncoder;
     private UserRepository userRepository;
     private RoleService roleService;
+    private UserService userService;
 
-    public AuthService(PasswordEncoder passwordEncoder, UserRepository userRepository, RoleService roleService) {
+    public AuthService(PasswordEncoder passwordEncoder, UserRepository userRepository, RoleService roleService,
+            UserService userService) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.roleService = roleService;
+        this.userService = userService;
     }
 
     public User registerUser(User user) {
@@ -55,12 +60,21 @@ public class AuthService {
         if (user == null) {
             throw new RuntimeException("Email không tồn tại trong hệ thống");
         }
-        // Kiểm tra password
+        // Kiểm tra password nếu không trùng thì throw exception
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new RuntimeException("Mật khẩu không đúng");
         }
 
         return user;
+    }
+
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            String email = authentication.getName();
+            return userService.getUserByEmail(email);
+        }
+        return null;
     }
 
 }

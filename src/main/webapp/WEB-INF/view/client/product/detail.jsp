@@ -28,6 +28,9 @@
 
                 <!-- Template Stylesheet -->
                 <link href="/client/css/style.css" rel="stylesheet">
+                <!-- CSRF meta tag -->
+                <meta name="_csrf" content="${_csrf.token}" />
+                <meta name="_csrf_header" content="${_csrf.headerName}" />
             </head>
 
             <body>
@@ -49,8 +52,26 @@
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="/">Home</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Chi tiết sản phẩm</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Detail</li>
                                 </ol>
+                                <!-- Success/Error Messages -->
+                                <c:if test="${param.success != null}">
+                                    <div class="container">
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                            <strong>Thành công!</strong> Đã thêm sản phẩm vào giỏ hàng.
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                        </div>
+                                    </div>
+                                </c:if>
+
+                                <c:if test="${param.error != null}">
+                                    <div class="container">
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <strong>Lỗi!</strong> ${param.error}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                        </div>
+                                    </div>
+                                </c:if>
                             </nav>
                         </div>
                     </div>
@@ -83,22 +104,28 @@
                                         <p class="mb-4">${product.detailDesc}</p>
                                         <div class="input-group quantity mb-5" style="width: 100px;">
                                             <div class="input-group-btn">
-                                                <button class="btn btn-sm btn-minus rounded-circle bg-light border">
+                                                <button type="button" id="product-minus-btn"
+                                                    class="btn btn-sm btn-minus rounded-circle bg-light border">
                                                     <i class="fa fa-minus"></i>
                                                 </button>
                                             </div>
-                                            <input type="text" class="form-control form-control-sm text-center border-0"
-                                                value="1">
+                                            <input type="text" id="product-quantity-display"
+                                                class="form-control form-control-sm text-center border-0" value="1">
                                             <div class="input-group-btn">
-                                                <button class="btn btn-sm btn-plus rounded-circle bg-light border">
+                                                <button type="button" id="product-plus-btn"
+                                                    class="btn btn-sm btn-plus rounded-circle bg-light border">
                                                     <i class="fa fa-plus"></i>
                                                 </button>
                                             </div>
                                         </div>
-                                        <a href="#"
-                                            class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary">
-                                            <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                                        </a>
+                                        <form action="/cart/add/${product.id}" method="POST" class="d-inline">
+                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                            <input type="hidden" name="quantity" id="product-quantity" value="1">
+                                            <button type="submit"
+                                                class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary">
+                                                <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                            </button>
+                                        </form>
                                     </div>
                                     <div class="col-lg-12">
                                         <nav>
@@ -238,6 +265,40 @@
 
                 <!-- Template Javascript -->
                 <script src="/client/js/main.js"></script>
+                <script>
+                    // Override quantity buttons từ main.js
+                    $(document).ready(function () {
+                        // Disable quantity handler từ main.js
+                        $('.quantity button').off('click');
+
+                        // Thêm handler mới cho product detail
+                        $('#product-minus-btn').on('click', function (e) {
+                            e.preventDefault();
+                            let currentValue = parseInt($('#product-quantity-display').val()) || 1;
+                            if (currentValue > 1) {
+                                currentValue--;
+                                $('#product-quantity-display').val(currentValue);
+                                $('#product-quantity').val(currentValue);
+                            }
+                        });
+
+                        $('#product-plus-btn').on('click', function (e) {
+                            e.preventDefault();
+                            let currentValue = parseInt($('#product-quantity-display').val()) || 1;
+                            currentValue++;
+                            $('#product-quantity-display').val(currentValue);
+                            $('#product-quantity').val(currentValue);
+                        });
+
+                        // Sync khi user nhập trực tiếp
+                        $('#product-quantity-display').on('input', function () {
+                            let value = parseInt($(this).val()) || 1;
+                            if (value < 1) value = 1;
+                            $(this).val(value);
+                            $('#product-quantity').val(value);
+                        });
+                    });
+                </script>
             </body>
 
             </html>

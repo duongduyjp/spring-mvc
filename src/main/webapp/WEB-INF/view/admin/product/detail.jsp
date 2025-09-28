@@ -41,7 +41,7 @@
                                     </ol>
                                 </nav>
 
-                                <!-- User Details Table -->
+                                <!-- Product Details Table -->
                                 <div class="card shadow-sm">
                                     <div class="card-header bg-primary text-white">
                                         <h5 class="mb-0">
@@ -51,7 +51,7 @@
                                     <div class="card-body p-3">
                                         <c:choose>
                                             <c:when test="${not empty product}">
-                                                <!-- Table hiển thị thông tin user -->
+
                                                 <div class="table-responsive">
                                                     <table class="table table-bordered table-hover mb-0">
                                                         <tbody>
@@ -182,6 +182,36 @@
                                         </c:choose>
                                     </div>
                                 </div>
+                                <!-- Add to Cart Form -->
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <form action="/cart/add/${product.id}" method="POST">
+                                            <div class="input-group mb-3">
+                                                <label class="input-group-text" for="quantity">Số lượng:</label>
+                                                <input type="number" class="form-control" id="quantity" name="quantity"
+                                                    value="1" min="1" max="10">
+                                                <button class="btn btn-primary" type="submit">
+                                                    <i class="fas fa-shopping-cart"></i> Thêm vào giỏ
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <!-- Success/Error Messages -->
+                                <c:if test="${param.success != null}">
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <strong>Thành công!</strong> Đã thêm sản phẩm vào giỏ hàng.
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                </c:if>
+
+                                <c:if test="${param.error != null}">
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <strong>Lỗi!</strong> ${param.error}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                </c:if>
                             </div>
 
                             <!-- JavaScript for delete confirmation -->
