@@ -52,5 +52,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
         .addResourceLocations("/resources/client/")
         .setCachePeriod(3600);
 
+    // Static mapping for custom JS/CSS
+    registry.addResourceHandler("/static/**")
+        .addResourceLocations("/static/")
+        .setCachePeriod(3600);
+
   }
 }

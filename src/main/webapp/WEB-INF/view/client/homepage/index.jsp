@@ -31,6 +31,10 @@
 
                 <!-- Custom Styles -->
                 <link href="/css/pagination.css" rel="stylesheet" />
+                
+                <!-- CSRF meta tags -->
+                <meta name="_csrf" content="${_csrf.token}" />
+                <meta name="_csrf_header" content="${_csrf.headerName}" />
             </head>
 
             <body>
@@ -132,20 +136,25 @@
                                                                             <fmt:formatNumber value="${product.price}"
                                                                                 pattern="#,###" /> VND
                                                                         </p>
-                                                                        <form action="/cart/add/${product.id}"
-                                                                            method="post">
-                                                                            <input type="hidden"
-                                                                                name="${_csrf.parameterName}"
-                                                                                value="${_csrf.token}" />
-                                                                            <input type="hidden" name="quantity"
-                                                                                value="1">
-                                                                            <button
-                                                                                class="btn border border-secondary rounded-pill px-3 text-primary btn-sm">
-                                                                                <i class="fa fa-shopping-bag me-2
-                                                                            text-primary"></i>
-                                                                                Add to cart
-                                                                            </button>
-                                                                        </form>
+                                                                        <button
+                                                                            class="btn border border-secondary rounded-pill px-3 text-primary btn-sm btn-add-to-cart"
+                                                                            data-product-id="${product.id}"
+                                                                            data-quantity="1">
+                                                                            <i class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                                            Add to cart
+                                                                        </button>
+                                                                        
+                                                                        <!-- Fallback for no-JavaScript -->
+                                                                        <noscript>
+                                                                            <form action="/cart/add/${product.id}" method="post" class="d-inline">
+                                                                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                                                                <input type="hidden" name="quantity" value="1">
+                                                                                <button class="btn border border-secondary rounded-pill px-3 text-primary btn-sm">
+                                                                                    <i class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                                                    Add to cart
+                                                                                </button>
+                                                                            </form>
+                                                                        </noscript>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -238,6 +247,9 @@
 
                 <!-- Template Javascript -->
                 <script src="/client/js/main.js"></script>
+                
+                <!-- Cart AJAX JavaScript -->
+                <script src="/static/js/cart.js"></script>
             </body>
 
             </html>

@@ -21,9 +21,9 @@
                             <c:if test="${not empty pageContext.request.userPrincipal}">
                                 <a href="/cart/detail" class="position-relative me-4 my-auto">
                                     <i class="fa fa-shopping-bag fa-2x"></i>
-                                    <span
-                                        class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-                                        style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                                    <span id="cart-count" 
+                                        class="cart-badge position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
+                                        style="top: -5px; left: 15px; height: 20px; min-width: 20px;">0</span>
                                 </a>
                                 <!-- Profile dropdown -->
                                 <div class="dropdown my-auto">
@@ -87,4 +87,8 @@
                 </nav>
             </div>
         </div>
+        
+        <!-- Toast Container -->
+        <div id="toast-container" class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;"></div>
+        
         <!-- Navbar End -->

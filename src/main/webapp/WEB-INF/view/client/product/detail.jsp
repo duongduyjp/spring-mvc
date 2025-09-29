@@ -118,14 +118,24 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        <form action="/cart/add/${product.id}" method="POST" class="d-inline">
-                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                                            <input type="hidden" name="quantity" id="product-quantity" value="1">
-                                            <button type="submit"
-                                                class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary">
-                                                <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                                            </button>
-                                        </form>
+                                        <button type="button"
+                                            class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary btn-add-to-cart"
+                                            data-product-id="${product.id}" data-quantity="1" id="add-to-cart-btn">
+                                            <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                        </button>
+
+                                        <!-- Fallback for no-JavaScript -->
+                                        <noscript>
+                                            <form action="/cart/add/${product.id}" method="POST" class="d-inline">
+                                                <input type="hidden" name="${_csrf.parameterName}"
+                                                    value="${_csrf.token}" />
+                                                <input type="hidden" name="quantity" value="1">
+                                                <button type="submit"
+                                                    class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary">
+                                                    <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                                </button>
+                                            </form>
+                                        </noscript>
                                     </div>
                                     <div class="col-lg-12">
                                         <nav>
@@ -265,6 +275,10 @@
 
                 <!-- Template Javascript -->
                 <script src="/client/js/main.js"></script>
+
+                <!-- Cart AJAX JavaScript -->
+                <script src="/static/js/cart.js"></script>
+
                 <script>
                     // Override quantity buttons từ main.js
                     $(document).ready(function () {
@@ -295,7 +309,16 @@
                             let value = parseInt($(this).val()) || 1;
                             if (value < 1) value = 1;
                             $(this).val(value);
-                            $('#product-quantity').val(value);
+                            // Cập nhật data-quantity cho AJAX button
+                            $('#add-to-cart-btn').attr('data-quantity', value);
+                        });
+
+                        // Sync quantity khi click +/-
+                        $('#product-minus-btn, #product-plus-btn').on('click', function () {
+                            setTimeout(function () {
+                                let quantity = $('#product-quantity-display').val();
+                                $('#add-to-cart-btn').attr('data-quantity', quantity);
+                            }, 10);
                         });
                     });
                 </script>

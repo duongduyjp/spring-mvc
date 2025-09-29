@@ -7,13 +7,10 @@
 
                 <head>
                     <meta charset="UTF-8">
-                    <meta name="viewport" content="width=, initial-scale=1.0">
-                    <title>Document</title>
-                    <meta charset="utf-8">
-                    <title>Fruitables - Vegetable Website Template</title>
-                    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-                    <meta content="" name="keywords">
-                    <meta content="" name="description">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Laptop Shop - Chi tiết giỏ hàng</title>
+                    <meta content="laptop shop, cart, shopping cart, chi tiết giỏ hàng" name="keywords">
+                    <meta content="Chi tiết giỏ hàng của Laptop Shop" name="description">
                     <meta name="_csrf" content="${_csrf.token}" />
                     <meta name="_csrf_header" content="${_csrf.headerName}" />
 
@@ -39,6 +36,69 @@
 
                     <!-- Template Stylesheet -->
                     <link href="/client/css/style.css" rel="stylesheet">
+
+                    <style>
+                        /* Cart AJAX Animation Styles */
+                        .highlight {
+                            background-color: #28a745 !important;
+                            color: white !important;
+                            transition: all 0.3s ease;
+                            border-radius: 4px;
+                            padding: 2px 4px;
+                        }
+
+                        .removing {
+                            opacity: 0.5;
+                            background-color: #f8d7da;
+                        }
+
+                        .quantity button:disabled {
+                            opacity: 0.6;
+                            cursor: not-allowed;
+                        }
+
+                        .cart-total-amount {
+                            transition: all 0.3s ease;
+                        }
+
+                        .item-total {
+                            transition: all 0.3s ease;
+                        }
+
+                        /* Loading animation */
+                        .btn-cart-minus:disabled,
+                        .btn-cart-plus:disabled,
+                        .btn-cart-remove:disabled {
+                            position: relative;
+                        }
+
+                        .btn-cart-minus:disabled::after,
+                        .btn-cart-plus:disabled::after,
+                        .btn-cart-remove:disabled::after {
+                            content: '';
+                            position: absolute;
+                            width: 12px;
+                            height: 12px;
+                            top: 50%;
+                            left: 50%;
+                            margin: -6px 0 0 -6px;
+                            border: 2px solid #ccc;
+                            border-radius: 50%;
+                            border-top-color: #007bff;
+                            animation: spin 1s linear infinite;
+                        }
+
+                        @keyframes spin {
+                            to {
+                                transform: rotate(360deg);
+                            }
+                        }
+
+                        .updating {
+                            opacity: 0.7;
+                            pointer-events: none;
+                        }
+                    </style>
                 </head>
 
                 <body>
@@ -131,25 +191,26 @@
                                                                 style="width: 100px;">
                                                                 <div class="input-group-btn">
                                                                     <button
-                                                                        class="btn btn-sm btn-minus rounded-circle bg-light border"
-                                                                        onclick="updateQuantity(${item.id}, ${item.quantity - 1});">
+                                                                        class="btn btn-sm btn-cart-minus rounded-circle bg-light border"
+                                                                        data-item-id="${item.id}">
                                                                         <i class="fa fa-minus"></i>
                                                                     </button>
                                                                 </div>
                                                                 <input type="text"
                                                                     class="form-control form-control-sm text-center border-0"
-                                                                    value="${item.quantity}" id="quantity-${item.id}">
+                                                                    value="${item.quantity}" data-item-id="${item.id}"
+                                                                    readonly>
                                                                 <div class="input-group-btn">
                                                                     <button
-                                                                        class="btn btn-sm btn-plus rounded-circle bg-light border"
-                                                                        onclick="updateQuantity(${item.id}, ${item.quantity + 1});">
+                                                                        class="btn btn-sm btn-cart-plus rounded-circle bg-light border"
+                                                                        data-item-id="${item.id}">
                                                                         <i class="fa fa-plus"></i>
                                                                     </button>
                                                                 </div>
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <p class="mb-0 mt-4">
+                                                            <p class="mb-0 mt-4 item-total">
                                                                 <fmt:formatNumber
                                                                     value="${item.unitPrice * item.quantity}"
                                                                     pattern="#,###" /> VND
@@ -157,8 +218,8 @@
                                                         </td>
                                                         <td>
                                                             <button
-                                                                class="btn btn-md rounded-circle bg-light border mt-4"
-                                                                onclick="removeItem(${item.id})">
+                                                                class="btn btn-md btn-cart-remove rounded-circle bg-light border mt-4"
+                                                                data-item-id="${item.id}">
                                                                 <i class="fa fa-times text-danger"></i>
                                                             </button>
                                                         </td>
@@ -198,7 +259,7 @@
                                             </h1>
                                             <div class="d-flex justify-content-between mb-4">
                                                 <h5 class="mb-0 me-4">Subtotal:</h5>
-                                                <p class="mb-0">
+                                                <p class="mb-0 cart-total-amount">
                                                     <fmt:formatNumber value="${totalAmount}" pattern="#,###" /> VND
                                                 </p>
                                             </div>
@@ -212,14 +273,14 @@
                                         </div>
                                         <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
                                             <h5 class="mb-0 ps-4 me-4">Total</h5>
-                                            <p class="mb-0 pe-4">
+                                            <p class="mb-0 pe-4 cart-total-amount">
                                                 <fmt:formatNumber value="${totalAmount}" pattern="#,###" /> VND
                                             </p>
                                         </div>
                                         <c:choose>
                                             <c:when test="${cart != null && !empty cart.cartItems}">
                                                 <button
-                                                    class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
+                                                    class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4 btn-checkout"
                                                     type="button">Proceed Checkout</button>
                                             </c:when>
                                             <c:otherwise>
@@ -255,61 +316,20 @@
                     <!-- Template Javascript -->
                     <script src="/client/js/main.js"></script>
                     <script>
+                        // Disable main.js quantity handlers for cart page
+                        $(document).ready(function () {
+                            $('.quantity button').off('click');
+                        });
+                    </script>
+
+                    <!-- Cart AJAX JavaScript -->
+                    <script src="/static/js/cart.js"></script>
+
+                    <script>
                         // Ẩn spinner khi trang load xong
                         $(document).ready(function () {
                             $('#spinner').removeClass('show');
                         });
-                    </script>
-                    <script>
-                        function updateQuantity(itemId, newQuantity) {
-                            if (newQuantity < 1) {
-                                removeItem(itemId);
-                                return;
-                            }
-
-                            fetch('/cart/update/' + itemId, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/x-www-form-urlencoded',
-                                    'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').getAttribute('content')
-                                },
-                                body: 'quantity=' + newQuantity
-                            })
-                                .then(response => {
-                                    if (response.ok) {
-                                        location.reload(); // Reload để cập nhật tổng tiền
-                                    } else {
-                                        alert('Có lỗi xảy ra khi cập nhật số lượng');
-                                    }
-                                })
-                                .catch(error => {
-                                    console.error('Error:', error);
-                                    alert('Có lỗi xảy ra khi cập nhật số lượng');
-                                });
-                        }
-
-                        function removeItem(itemId) {
-                            if (confirm('Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?')) {
-                                fetch('/cart/remove/' + itemId, {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/x-www-form-urlencoded',
-                                        'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').getAttribute('content')
-                                    }
-                                })
-                                    .then(response => {
-                                        if (response.ok) {
-                                            location.reload();
-                                        } else {
-                                            alert('Có lỗi xảy ra khi xóa sản phẩm');
-                                        }
-                                    })
-                                    .catch(error => {
-                                        console.error('Error:', error);
-                                        alert('Có lỗi xảy ra khi xóa sản phẩm');
-                                    });
-                            }
-                        }
                     </script>
 
                 </body>

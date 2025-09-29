@@ -1,6 +1,7 @@
 package vn.hoidanit.laptopshop.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import vn.hoidanit.laptopshop.repository.CartRepository;
 import vn.hoidanit.laptopshop.repository.CartItemRepository;
 import vn.hoidanit.laptopshop.repository.ProductRepository;
@@ -26,6 +27,7 @@ public class CartService {
         this.authService = authService;
     }
 
+    @Transactional
     public CartItem addToCart(long productId, int quantity) {
         // Lấy user hiện tại
         User currentUser = this.authService.getCurrentUser();
@@ -90,6 +92,7 @@ public class CartService {
     }
 
     // Cập nhật số lượng item trong cart
+    @Transactional
     public void updateCartItemQuantity(Long itemId, int quantity) {
         CartItem item = cartItemRepository.findById(itemId)
                 .orElseThrow(() -> new RuntimeException("Cart item not found"));
@@ -103,9 +106,16 @@ public class CartService {
     }
 
     // Xóa item trong cart
+    @Transactional
     public void removeCartItem(Long itemId) {
         CartItem item = cartItemRepository.findById(itemId)
                 .orElseThrow(() -> new RuntimeException("Cart item not found"));
         cartItemRepository.delete(item);
+    }
+    
+    // Lấy cart item theo ID
+    public CartItem getCartItemById(Long itemId) {
+        return cartItemRepository.findById(itemId)
+                .orElseThrow(() -> new RuntimeException("Cart item not found"));
     }
 }
