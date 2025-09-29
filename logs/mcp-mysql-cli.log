@@ -14,3 +14,13 @@
 2025-09-29T01:43:42.390Z | INFO | MCP MySQL server process started with PID: 7342
 2025-09-29T01:43:42.390Z | INFO | Signal handlers registered for SIGINT and SIGTERM
 2025-09-29T01:43:42.390Z | INFO | Press Ctrl+C to gracefully shutdown the server
+2025-09-29T08:04:50.914Z | INFO | Received SIGTERM, shutting down server...
+2025-09-29T08:04:50.915Z | INFO | Sent SIGTERM signal to server process 7342
+2025-09-29T08:04:50.920Z | INFO | MCP MySQL server exited with code: 0
+2025-09-29T08:04:50.920Z | INFO | Server requested restart, restarting...
+2025-09-29T08:04:52.921Z | INFO | Starting MCP MySQL server with environment: | {"MYSQL_HOST":"localhost","MYSQL_PORT":"3306","MYSQL_USER":"root","MYSQL_DATABASE":"laptopshop","MCP_DDL_LOG_FILE":"ddl.sql"}
+2025-09-29T08:04:52.923Z | INFO | MCP MySQL server process started with PID: 39260
+2025-09-29T08:04:52.924Z | INFO | Signal handlers registered for SIGINT and SIGTERM
+2025-09-29T08:04:52.924Z | INFO | Press Ctrl+C to gracefully shutdown the server
+2025-09-29T08:04:58.422Z | INFO | Received SIGTERM, shutting down server...
+2025-09-29T08:04:58.423Z | INFO | Sent SIGTERM signal to server process 39260
