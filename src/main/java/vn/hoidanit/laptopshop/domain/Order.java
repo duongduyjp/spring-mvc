@@ -30,6 +30,10 @@ public class Order {
     private long id;
 
     private double totalPrice;
+    private String status;
+    private String shippingAddress;
+    private String shippingPhone;
+    private String shippingName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -40,7 +44,9 @@ public class Order {
 
     @Override
     public String toString() {
-        return String.format("Order{id=%d, totalPrice=%,.0f VND}", id, totalPrice);
+        return String.format(
+                "Order{id=%d, totalPrice=%,.0f VND, status='%s', shippingAddress='%s', shippingPhone='%s', shippingName='%s'}",
+                id, totalPrice, status, shippingAddress, shippingPhone, shippingName);
     }
 
 }

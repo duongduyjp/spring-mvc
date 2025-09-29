@@ -31,7 +31,7 @@
 
                 <!-- Custom Styles -->
                 <link href="/css/pagination.css" rel="stylesheet" />
-                
+
                 <!-- CSRF meta tags -->
                 <meta name="_csrf" content="${_csrf.token}" />
                 <meta name="_csrf_header" content="${_csrf.headerName}" />
@@ -53,7 +53,25 @@
                 <!-- Banner quảng cáo -->
                 <jsp:include page="../layout/banner.jsp" />
 
-                <!-- Fruits Shop Start-->
+
+                <!-- Success/Error Messages -->
+                <c:if test="${not empty success}">
+                    <div class="container">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fa fa-check-circle me-2"></i><strong>Thành công!</strong> ${success}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    </div>
+                </c:if>
+
+                <c:if test="${not empty error}">
+                    <div class="container">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fa fa-exclamation-circle me-2"></i><strong>Lỗi!</strong> ${error}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    </div>
+                </c:if>
                 <!-- Bắt đầu block danh sách sản phẩm nổi bật -->
                 <div class="container-fluid fruite py-5">
                     <div class="container py-5">
@@ -140,17 +158,24 @@
                                                                             class="btn border border-secondary rounded-pill px-3 text-primary btn-sm btn-add-to-cart"
                                                                             data-product-id="${product.id}"
                                                                             data-quantity="1">
-                                                                            <i class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                                            <i
+                                                                                class="fa fa-shopping-bag me-2 text-primary"></i>
                                                                             Add to cart
                                                                         </button>
-                                                                        
+
                                                                         <!-- Fallback for no-JavaScript -->
                                                                         <noscript>
-                                                                            <form action="/cart/add/${product.id}" method="post" class="d-inline">
-                                                                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                                                                                <input type="hidden" name="quantity" value="1">
-                                                                                <button class="btn border border-secondary rounded-pill px-3 text-primary btn-sm">
-                                                                                    <i class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                                            <form action="/cart/add/${product.id}"
+                                                                                method="post" class="d-inline">
+                                                                                <input type="hidden"
+                                                                                    name="${_csrf.parameterName}"
+                                                                                    value="${_csrf.token}" />
+                                                                                <input type="hidden" name="quantity"
+                                                                                    value="1">
+                                                                                <button
+                                                                                    class="btn border border-secondary rounded-pill px-3 text-primary btn-sm">
+                                                                                    <i
+                                                                                        class="fa fa-shopping-bag me-2 text-primary"></i>
                                                                                     Add to cart
                                                                                 </button>
                                                                             </form>
@@ -247,7 +272,7 @@
 
                 <!-- Template Javascript -->
                 <script src="/client/js/main.js"></script>
-                
+
                 <!-- Cart AJAX JavaScript -->
                 <script src="/static/js/cart.js"></script>
             </body>
