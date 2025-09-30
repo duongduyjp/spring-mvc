@@ -13,6 +13,7 @@ import vn.hoidanit.laptopshop.domain.CartItem;
 import vn.hoidanit.laptopshop.domain.User;
 import java.math.BigDecimal;
 import java.util.List;
+import java.sql.Date;
 
 @Service
 public class OrderService {
@@ -54,6 +55,7 @@ public class OrderService {
         order.setShippingAddress(shippingAddress);
         order.setShippingPhone(shippingPhone);
         order.setStatus("Đã đặt hàng");
+        order.setCreatedAt(new Date(System.currentTimeMillis()));
 
         // 4. Lưu Order
         order = orderRepository.save(order);
@@ -83,5 +85,35 @@ public class OrderService {
 
     public Order getOrderById(Long id) {
         return orderRepository.findById(id).orElse(null);
+    }
+
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
+    }
+
+    // Update status of order
+    public void updateOrder(Long id, Order order) {
+        Order existingOrder = orderRepository.findById(id).orElse(null);
+        if (existingOrder == null) {
+            throw new RuntimeException("Order not found with ID: " + id);
+        }
+        existingOrder.setStatus(order.getStatus());
+        orderRepository.save(existingOrder);
+    }
+
+    // Delete order
+    @Transactional
+    public void deleteOrder(Long id) {
+        Order order = orderRepository.findById(id).orElse(null);
+        if (order == null) {
+            throw new RuntimeException("Order not found with ID: " + id);
+        }
+
+        // Xóa tất cả OrderDetails trước
+        List<OrderDetail> orderDetails = orderDetailRepository.findByOrder(order);
+        orderDetailRepository.deleteAll(orderDetails);
+
+        // Sau đó xóa Order
+        orderRepository.deleteById(id);
     }
 }

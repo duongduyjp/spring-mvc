@@ -1,49 +1,160 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-        <!DOCTYPE html>
-        <html lang="en">
+        <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-        <head>
-            <meta charset="utf-8" />
-            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-            <meta name="description" content="Ecommerce - laptopshop" />
-            <meta name="author" content="Ecommerce" />
-            <title>Order - Ecommerce</title>
-            <link href="/css/styles.css" rel="stylesheet" />
-            <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-        </head>
+            <!DOCTYPE html>
+            <html lang="en">
 
-        <body>
-            <jsp:include page="../layout/header.jsp" />
-            <jsp:include page="../layout/sidebar.jsp" />
-            <div id="layoutSidenav_content">
-                <main>
-                    <div class="container-fluid mt-4">
-                        <!-- Header Section -->
-                        <div class="row mb-1">
-                            <div class="col-md-6">
-                                <h2 class="text-dark fw-bold">Manager Orders</h2>
+            <head>
+                <meta charset="utf-8" />
+                <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+                <meta name="description" content="Hỏi Dân IT - Dự án laptopshop" />
+                <meta name="author" content="Hỏi Dân IT" />
+                <title>Order - Laptopshop</title>
+                <link href="/css/styles.css" rel="stylesheet" />
+                <link href="/css/main.css" rel="stylesheet" />
+                <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+            </head>
+
+            <body>
+                <jsp:include page="../layout/header.jsp" />
+                <jsp:include page="../layout/sidebar.jsp" />
+                <div id="layoutSidenav_content">
+                    <main>
+                        <div class="container-fluid mt-4">
+                            <!-- Header Section -->
+                            <div class="row mb-1">
+                                <div class="col-md-6">
+                                    <h2 class="text-dark fw-bold">Manager Orders</h2>
+                                </div>
                             </div>
-                        </div>
-                        <!-- Breadcrumb Section -->
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Orders</li>
-                            </ol>
-                        </nav>
-                        <div>
-                            Table orders
-                        </div>
+                            <!-- Breadcrumb Section -->
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Orders</li>
+                                </ol>
+                            </nav>
+                            <div>
+                                Table orders
+                            </div>
 
-                    </div>
-                </main>
-                <jsp:include page="../layout/footer.jsp" />
+                            <!-- Table Section -->
+                            <div class="card shadow-sm mt-3">
+                                <!-- Thêm vào đầu table, sau <div class="card shadow-sm"> -->
+                                <c:if test="${param.success == 'true'}">
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <i class="fas fa-check-circle"></i> ${param.message}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                </c:if>
 
+                                <c:if test="${param.error == 'true'}">
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <i class="fas fa-exclamation-circle"></i> ${param.message}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                </c:if>
+
+                                <!-- Flash attribute success messages -->
+                                <c:if test="${not empty success}">
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <i class="fas fa-check-circle"></i> ${success}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                </c:if>
+
+                                <!-- Flash attribute error messages -->
+                                <c:if test="${not empty error}">
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <i class="fas fa-exclamation-circle"></i> ${error}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                </c:if>
+                                <div class="card-body p-0">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover mb-0">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th class="px-3 py-3">ID</th>
+                                                    <th class="px-3 py-3">Tên người nhận</th>
+                                                    <th class="px-3 py-3">Địa chỉ</th>
+                                                    <th class="px-3 py-3">Số điện thoại</th>
+                                                    <th class="px-3 py-3">Tổng tiền</th>
+                                                    <th class="px-3 py-3">Trạng thái</th>
+                                                    <th class="px-3 py-3 text-center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Kiểm tra nếu có data -->
+                                                <c:choose>
+                                                    <c:when test="${not empty orders}">
+                                                        <!-- Hiển thị data thật từ database -->
+                                                        <c:forEach var="order" items="${orders}">
+                                                            <tr>
+                                                                <td class="px-3 py-3">${order.id}</td>
+                                                                <td class="px-3 py-3">${order.shippingName}</td>
+                                                                <td class="px-3 py-3">${order.shippingAddress}</td>
+                                                                <td class="px-3 py-3">${order.shippingPhone}</td>
+                                                                <td class="px-3 py-3">
+                                                                    <fmt:formatNumber value="${order.totalPrice}"
+                                                                        pattern="#,###" /> VND
+                                                                </td>
+                                                                <td class="px-3 py-3">${order.status}</td>
+                                                                <td class="px-3 py-3 text-center">
+                                                                    <div class="btn-group" role="group">
+                                                                        <a href="/admin/order/${order.id}"
+                                                                            class="btn btn-success btn-sm me-3">
+                                                                            <i class="fas fa-eye"></i> View
+                                                                        </a>
+                                                                        <a href="/admin/order/edit/${order.id}"
+                                                                            class="btn btn-warning btn-sm me-3">
+                                                                            <i class="fas fa-edit"></i> Update
+                                                                        </a>
+                                                                        <form action="/admin/order/delete/${order.id}"
+                                                                            method="POST"
+                                                                            onsubmit="return confirm('You are sure to delete this order?');"
+                                                                            style="display: inline-block; margin: 0;">
+                                                                            <button type="submit"
+                                                                                class="btn btn-danger btn-sm">
+                                                                                <i class="fas fa-trash"></i> Delete
+                                                                            </button>
+                                                                            <input type="hidden"
+                                                                                name="${_csrf.parameterName}"
+                                                                                value="${_csrf.token}" />
+                                                                        </form>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </c:forEach>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <!-- Hiển thị thông báo khi không có data -->
+                                                        <tr>
+                                                            <td colspan="9" class="text-center py-3">
+                                                                <div class="d-flex flex-column align-items-center">
+                                                                    <i
+                                                                        class="fas fa-shopping-cart fa-3x text-muted mb-3 text-center"></i>
+                                                                    <h5 class="text-muted mb-2 text-center">No orders
+                                                                        found</h5>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                    </main>
+                    <jsp:include page="../layout/footer.jsp" />
+                </div>
+                </div>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
                     crossorigin="anonymous"></script>
                 <script src="js/scripts.js"></script>
-        </body>
+            </body>
 
-        </html>
+            </html>

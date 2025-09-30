@@ -177,9 +177,6 @@ function updateCartQuantityAjax(itemId, newQuantity) {
     const buttons = quantityContainer.find('.btn-cart-minus, .btn-cart-plus');
 
     // Disable buttons và thêm loading state
-    buttons.prop('disabled', true);
-    buttons.addClass('updating');
-
     $.ajax({
         url: `/api/cart/update/${itemId}`,
         type: 'POST',
@@ -204,12 +201,6 @@ function updateCartQuantityAjax(itemId, newQuantity) {
                 showToast('Có lỗi xảy ra khi cập nhật', 'danger');
             }
         },
-        complete: function () {
-            // Re-enable buttons
-            buttons.prop('disabled', false);
-            buttons.removeClass('updating');
-            buttons.find('.spinner-border').remove();
-        }
     });
 }
 
@@ -283,9 +274,7 @@ function updateCartUI(itemId, newQuantity, response) {
         const formattedTotal = formatCurrency(response.itemTotal) + ' VND';
         itemTotalCell.html(formattedTotal);
 
-        // Animation highlight
-        itemTotalCell.addClass('highlight');
-        setTimeout(() => itemTotalCell.removeClass('highlight'), 1500);
+
     }
 
     // Cập nhật totals
@@ -303,9 +292,6 @@ function updateCartTotals(response) {
         const formattedAmount = formatCurrency(response.totalAmount) + ' VND';
         totalAmountElements.html(formattedAmount);
 
-        // Animation highlight totals
-        totalAmountElements.addClass('highlight');
-        setTimeout(() => totalAmountElements.removeClass('highlight'), 1500);
     }
 }
 
@@ -406,11 +392,5 @@ function updateCartBadge(count) {
         } else {
             badge.hide();
         }
-
-        // Animation cho badge
-        badge.addClass('animate__animated animate__pulse');
-        setTimeout(function () {
-            badge.removeClass('animate__animated animate__pulse');
-        }, 1000);
     }
 }

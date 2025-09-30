@@ -13,6 +13,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.CascadeType;
 import java.util.List;
+import java.sql.Date;
 import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,6 +35,7 @@ public class Order {
     private String shippingAddress;
     private String shippingPhone;
     private String shippingName;
+    private Date createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
