@@ -6,6 +6,7 @@ import vn.hoidanit.laptopshop.domain.Product;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import vn.hoidanit.laptopshop.repository.CartItemRepository;
 import vn.hoidanit.laptopshop.repository.CartRepository;
@@ -52,8 +53,13 @@ public class ProductService {
         }
     }
 
-    public Page<Product> getAllProducts(Pageable pageable) {
+    public Page<Product> getAllProducts(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
         return this.productRepository.findAll(pageable);
+    }
+
+    public long getTotalProductCount() {
+        return productRepository.count();
     }
 
 }

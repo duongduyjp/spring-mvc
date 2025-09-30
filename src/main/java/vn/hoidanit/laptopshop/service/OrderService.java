@@ -11,9 +11,11 @@ import vn.hoidanit.laptopshop.domain.OrderDetail;
 import vn.hoidanit.laptopshop.domain.Cart;
 import vn.hoidanit.laptopshop.domain.CartItem;
 import vn.hoidanit.laptopshop.domain.User;
-import java.math.BigDecimal;
 import java.util.List;
 import java.sql.Date;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class OrderService {
@@ -87,8 +89,13 @@ public class OrderService {
         return orderRepository.findById(id).orElse(null);
     }
 
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+    public Page<Order> getAllOrders(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return orderRepository.findAll(pageable);
+    }
+
+    public long getTotalOrderCount() {
+        return orderRepository.count();
     }
 
     // Update status of order

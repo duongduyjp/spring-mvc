@@ -7,12 +7,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import vn.hoidanit.laptopshop.controller.BaseController;
 import vn.hoidanit.laptopshop.domain.Order;
 import vn.hoidanit.laptopshop.service.OrderService;
+import vn.hoidanit.laptopshop.util.PaginationHelper;
+
 import java.util.List;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import vn.hoidanit.laptopshop.service.AuthService;
+import org.springframework.data.domain.Page;
 
 @Controller
 public class OrderController extends BaseController {
@@ -25,9 +29,12 @@ public class OrderController extends BaseController {
     }
 
     @GetMapping("/admin/order")
-    public String showOrderPage(Model model) {
-        List<Order> orders = orderService.getAllOrders();
-        model.addAttribute("orders", orders);
+    public String showOrderPage(Model model,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "5") int size) {
+        Page<Order> orderPage = orderService.getAllOrders(page, size);
+        model.addAttribute("orders", orderPage.getContent());
+        PaginationHelper.addPaginationAttributes(model, orderPage, page, size);
         return "admin/order/index";
     }
 

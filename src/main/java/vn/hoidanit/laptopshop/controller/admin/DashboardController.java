@@ -23,8 +23,8 @@ public class DashboardController extends BaseController {
     @GetMapping("/admin")
     public String showDashboard(Model model) {
         model.addAttribute("userCount", userService.getAllUsers().size());
-        model.addAttribute("orderCount", orderService.getAllOrders().size());
-        model.addAttribute("productCount", productService.getAllProducts().size());
+        model.addAttribute("orderCount", orderService.getTotalOrderCount());
+        model.addAttribute("productCount", productService.getTotalProductCount());
         return "admin/dashboard/index";
     }
 }

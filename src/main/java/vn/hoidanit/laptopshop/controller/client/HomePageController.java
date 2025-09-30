@@ -32,7 +32,7 @@ public class HomePageController {
         int pageSize = 8;
 
         // Lấy danh sách sản phẩm có phân trang
-        Page<Product> productPage = productService.getAllProducts(PageRequest.of(page, pageSize));
+        Page<Product> productPage = productService.getAllProducts(page, pageSize);
         model.addAttribute("products", productPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", productPage.getTotalPages());

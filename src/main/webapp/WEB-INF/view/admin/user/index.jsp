@@ -127,6 +127,10 @@
                                             </c:choose>
                                         </tbody>
                                     </table>
+                                    <!-- Pagination Component -->
+                                    <c:set var="paginationUrl" value="/admin/user" />
+                                    <c:set var="itemName" value="user" />
+                                    <jsp:include page="../layout/pagination.jsp" />
                                 </div>
                             </div>
                         </div>

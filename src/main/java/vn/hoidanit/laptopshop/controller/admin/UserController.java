@@ -23,6 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import vn.hoidanit.laptopshop.util.PaginationHelper;
 
 @Controller
 @RequestMapping("/admin")
@@ -30,11 +32,14 @@ public class UserController extends BaseController {
     private UserService userService;
     private RoleService roleService;
     private UploadService uploadService;
+    private PaginationHelper paginationHelper;
 
-    public UserController(UserService userService, RoleService roleService, UploadService uploadService) {
+    public UserController(UserService userService, RoleService roleService, UploadService uploadService,
+            PaginationHelper paginationHelper) {
         this.userService = userService;
         this.roleService = roleService;
         this.uploadService = uploadService;
+        this.paginationHelper = paginationHelper;
     }
 
     @InitBinder
@@ -43,20 +48,14 @@ public class UserController extends BaseController {
         binder.setDisallowedFields("avatar");
     }
 
-    // localhost:8080/
-    @RequestMapping("/")
-    public String getHomePage(Model model) {
-        List<User> users = this.userService.getAllUsers();
-        model.addAttribute("users", users);
-        System.out.println(users);
-        return "hello";
-    }
-
     // show user list
     @GetMapping("/user")
-    public String getUserPage(Model model) {
-        List<User> users = this.userService.getAllUsers();
-        model.addAttribute("users", users);
+    public String getUserPage(Model model,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "5") int size) {
+        Page<User> userPage = this.userService.getAllUsers(page, size);
+        model.addAttribute("users", userPage.getContent());
+        PaginationHelper.addPaginationAttributes(model, userPage, page, size);
         return "admin/user/index";
     }
 

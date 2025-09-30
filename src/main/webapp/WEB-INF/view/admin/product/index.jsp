@@ -134,11 +134,19 @@
                                                 </c:choose>
                                             </tbody>
                                         </table>
+                                        <!-- Pagination Section -->
+                                        <!-- Pagination Component -->
+                                        <c:set var="paginationUrl" value="/admin/product" />
+                                        <c:set var="itemName" value="sản phẩm" />
+                                        <jsp:include page="../layout/pagination.jsp" />
                                     </div>
                                 </div>
                             </div>
-                    </main>
-                    <jsp:include page="../layout/footer.jsp" />
+                        </div>
+                </div>
+                </div>
+                </main>
+                <jsp:include page="../layout/footer.jsp" />
                 </div>
                 </div>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
