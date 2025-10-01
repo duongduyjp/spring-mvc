@@ -195,49 +195,10 @@
                                             <!-- Pagination Start -->
                                             <!-- Phân trang sản phẩm -->
                                             <c:if test="${totalPages > 1}">
-                                                <div class="d-flex justify-content-center mt-5">
-                                                    <nav aria-label="Product pagination">
-                                                        <ul class="pagination">
-                                                            <!-- Nút trang trước -->
-                                                            <c:if test="${currentPage > 0}">
-                                                                <li class="page-item">
-                                                                    <a class="page-link"
-                                                                        href="/?page=${currentPage - 1}"
-                                                                        aria-label="Previous">
-                                                                        <span aria-hidden="true">&laquo;</span>
-                                                                    </a>
-                                                                </li>
-                                                            </c:if>
-
-                                                            <!-- Số trang -->
-                                                            <c:forEach begin="0" end="${totalPages - 1}" var="i">
-                                                                <li
-                                                                    class="page-item ${i == currentPage ? 'active' : ''}">
-                                                                    <a class="page-link" href="/?page=${i}">${i + 1}</a>
-                                                                </li>
-                                                            </c:forEach>
-
-                                                            <!-- Nút trang sau -->
-                                                            <c:if test="${currentPage < totalPages - 1}">
-                                                                <li class="page-item">
-                                                                    <a class="page-link"
-                                                                        href="/?page=${currentPage + 1}"
-                                                                        aria-label="Next">
-                                                                        <span aria-hidden="true">&raquo;</span>
-                                                                    </a>
-                                                                </li>
-                                                            </c:if>
-                                                        </ul>
-                                                    </nav>
-                                                </div>
-
-                                                <!-- Thông tin phân trang -->
-                                                <div class="text-center mt-3">
-                                                    <p class="text-muted">
-                                                        Hiển thị trang ${currentPage + 1} / ${totalPages}
-                                                        (Tổng ${totalElements} sản phẩm)
-                                                    </p>
-                                                </div>
+                                                <!-- Pagination Component -->
+                                                <c:set var="paginationUrl" value="/" />
+                                                <c:set var="itemName" value="sản phẩm" />
+                                                <jsp:include page="../layout/pagination.jsp" />
                                             </c:if>
                                             <!-- Kết thúc phân trang -->
                                             <!-- Pagination End -->

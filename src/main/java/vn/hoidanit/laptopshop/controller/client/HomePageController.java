@@ -8,21 +8,23 @@ import vn.hoidanit.laptopshop.domain.Product;
 import java.util.List;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.repository.UserRepository;
-import java.util.Optional;
+import vn.hoidanit.laptopshop.util.PaginationHelper;
 
 @Controller
 public class HomePageController {
     private final ProductService productService;
     private final UserRepository userRepository;
+    private final PaginationHelper paginationHelper;
 
-    public HomePageController(ProductService productService, UserRepository userRepository) {
+    public HomePageController(ProductService productService, UserRepository userRepository,
+            PaginationHelper paginationHelper) {
         this.productService = productService;
         this.userRepository = userRepository;
+        this.paginationHelper = paginationHelper;
     }
 
     @GetMapping("/")
@@ -34,10 +36,7 @@ public class HomePageController {
         // Lấy danh sách sản phẩm có phân trang
         Page<Product> productPage = productService.getAllProducts(page, pageSize);
         model.addAttribute("products", productPage.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", productPage.getTotalPages());
-        model.addAttribute("totalElements", productPage.getTotalElements());
-        model.addAttribute("pageSize", pageSize);
+        PaginationHelper.addPaginationAttributes(model, productPage, page, pageSize);
 
         // Lấy một vài sản phẩm đặc biệt cho banner carousel
         List<Product> allProducts = productService.getAllProducts();
