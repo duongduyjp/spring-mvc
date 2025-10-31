@@ -63,11 +63,11 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.INCLUDE).permitAll()
-                        .requestMatchers("/", "/login", "/access-denied", "/product/**",
+                        .requestMatchers("/", "/login", "/access-denied", "/product/**", "/register",
                                 "/client/**", "/css/**", "/js/**", "/images/**")
                         .permitAll()
                         .requestMatchers("/admin/**")
-                        .hasRole("ADMIN")
+                        .hasAnyRole("ADMIN", "USER")
 
                         .anyRequest().authenticated())
                 .sessionManagement((sessionManagement) -> sessionManagement
